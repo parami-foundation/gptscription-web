@@ -1,0 +1,65 @@
+<svg
+  viewBox="0 0 1920 1080" fill="none"
+  xmlns="http://www.w3.org/2000/svg">
+  <rect width="1920" height="1080" fill="black" />
+  <g filter="url(#filter0_f_0_1)">
+    <ellipse cx="1494.72" cy="959.539" rx="357.976" ry="778" transform="rotate(45 1494.72 959.539)"
+      fill="url(#paint0_radial_0_1)" />
+  </g>
+  <ellipse cx="624.806" cy="450.444" rx="493.869" ry="1043.89"
+    transform="rotate(8.50386 624.806 450.444)" fill="url(#paint1_radial_0_1)" />
+  <path
+    d="M749.178 364C749.178 179.827 624.511 28.6675 557.178 -23.9992C295.175 -208 -256.827 -122 -426.824 146C-884.952 868.237 -446.822 1150 -262.822 1142C413.178 1210 749.178 638 749.178 364Z"
+    fill="url(#paint2_radial_0_1)" />
+  <g opacity="0.227167" filter="url(#filter1_f_0_1)">
+    <circle cx="1685" cy="-247" r="665" fill="url(#paint3_radial_0_1)" />
+  </g>
+  <path
+    d="M1717.18 780C1198.78 876 1037.18 1260 1021.18 1440C1006.42 1606 1230.78 1840 1653.18 1872C2075.58 1904 2213.18 1677.33 2229.18 1560C2274.51 1260 2235.58 684 1717.18 780Z"
+    fill="url(#paint4_linear_0_1)" />
+  <rect y="663" width="1920" height="417" fill="url(#paint5_linear_0_1)" />
+  <defs>
+    <filter id="filter0_f_0_1" x="884.998" y="349.823" width="1219.43" height="1219.43"
+      filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feFlood flood-opacity="0" result="BackgroundImageFix" />
+      <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape" />
+      <feGaussianBlur stdDeviation="2" result="effect1_foregroundBlur_0_1" />
+    </filter>
+    <filter id="filter1_f_0_1" x="884.086" y="-1047.91" width="1601.83" height="1601.83"
+      filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feFlood flood-opacity="0" result="BackgroundImageFix" />
+      <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape" />
+      <feGaussianBlur stdDeviation="67.957" result="effect1_foregroundBlur_0_1" />
+    </filter>
+    <radialGradient id="paint0_radial_0_1" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse"
+      gradientTransform="translate(1494.72 959.539) rotate(90) scale(778 357.976)">
+      <stop stop-color="#22D955" />
+      <stop offset="1" stop-color="#00927E" stop-opacity="0" />
+    </radialGradient>
+    <radialGradient id="paint1_radial_0_1" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse"
+      gradientTransform="translate(631.734 495.47) rotate(-88.1192) scale(898.721 402.348)">
+      <stop stop-color="#22D955" />
+      <stop offset="1" stop-color="#00927E" stop-opacity="0" />
+    </radialGradient>
+    <radialGradient id="paint2_radial_0_1" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse"
+      gradientTransform="translate(276 116) rotate(79.9025) scale(296.594 546.853)">
+      <stop stop-color="#212121" />
+      <stop offset="1" />
+    </radialGradient>
+    <radialGradient id="paint3_radial_0_1" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse"
+      gradientTransform="translate(1685 -247) rotate(175.057) scale(609.597)">
+      <stop stop-color="#22D955" />
+      <stop offset="1" />
+    </radialGradient>
+    <linearGradient id="paint4_linear_0_1" x1="1900" y1="544" x2="1656" y2="1780"
+      gradientUnits="userSpaceOnUse">
+      <stop />
+      <stop offset="1" stop-opacity="0" />
+    </linearGradient>
+    <linearGradient id="paint5_linear_0_1" x1="888" y1="1080" x2="888" y2="663"
+      gradientUnits="userSpaceOnUse">
+      <stop />
+      <stop offset="1" stop-opacity="0" />
+    </linearGradient>
+  </defs>
+</svg>
