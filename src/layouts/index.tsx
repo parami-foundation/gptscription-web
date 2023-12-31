@@ -3,6 +3,7 @@ import styles from "./style.less";
 import { ConfigProvider, theme } from 'antd';
 import { THEME_CONFIG } from "@/constants/theme";
 import { WagmiConfig } from "wagmi";
+import Header from "@/components/header";
 
 const Layout: React.FC = () => {
   const { wagmiConfig } = useModel('useWagmi');
@@ -26,6 +27,7 @@ const Layout: React.FC = () => {
           >
             <div className={styles.layoutContainer}>
               <div className={styles.wrapperContainer}>
+                <Header />
                 <Outlet />
               </div>
             </div>

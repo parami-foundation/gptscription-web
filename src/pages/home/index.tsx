@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from "./style.less";
 import { ReactComponent as Background } from '@/assets/home/background.svg';
+import { ReactComponent as BackgroundMobile } from '@/assets/home/background_mobile.svg';
 import { MdArrowOutward } from "react-icons/md";
 
 const Home: React.FC = () => {
@@ -9,6 +10,9 @@ const Home: React.FC = () => {
       <div className={styles.homeBackground}>
         <Background
           className={styles.homeBackgroundSvg}
+        />
+        <BackgroundMobile
+          className={styles.homeBackgroundMobileSvg}
         />
       </div>
       <div className={styles.homeWrapper}>
@@ -23,6 +27,12 @@ const Home: React.FC = () => {
                 World's first<br />
                 token inscribed<br />
                 by GPT
+              </div>
+              <div className={styles.bannerSubTitleMobile}>
+                World's<br />
+                first token<br />
+                inscribed by<br />
+                GPT
               </div>
               <div className={styles.bannerButton}>
                 <span>Start Now</span>

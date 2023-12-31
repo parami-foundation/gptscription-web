@@ -20,10 +20,28 @@ export default defineConfig({
   },
   hash: true,
   cssMinifier: "cssnano",
+  scripts: [
+    {
+      src: "https://www.googletagmanager.com/gtag/js?id=G-ZSX5DE8JFR",
+      async: true,
+    },
+    {
+      src: "https://static.geetest.com/static/tools/gt.js",
+      async: true,
+    },
+    {
+      content: `
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-ZSX5DE8JFR');
+      `
+    }
+  ],
   links: [
     {
       rel: "icon",
-      href: "/logo.svg",
+      href: "/icon.svg",
       type: "image/x-icon",
     },
   ],
