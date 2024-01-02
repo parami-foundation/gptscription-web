@@ -14,7 +14,9 @@ export const NETWORK_CONFIG = {
 };
 
 export const CONTRACT = {
-  Optimism: {},
+  Optimism: {
+    MP: '0x0000000'
+  },
 };
 
 export const WEBSOCKET = {

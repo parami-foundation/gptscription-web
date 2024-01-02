@@ -16,7 +16,7 @@ const Layout: React.FC = () => {
         >
           <ConfigProvider
             theme={{
-              algorithm: theme.defaultAlgorithm,
+              algorithm: theme.darkAlgorithm,
               token: {
                 wireframe: false,
                 colorPrimary: THEME_CONFIG.colorPrimary,

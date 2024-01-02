@@ -1,0 +1,241 @@
+.boostModal {
+  :global(.ant-modal-content) {
+    background: var(--content-bg);
+  }
+
+  :global(.ant-modal-close) {
+    color: #fff;
+  }
+
+  .walletConnectAccount {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+}
+
+.selectModalContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+
+  .selectModalHeader {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: var(--spacing) 0;
+
+    .selectModalHeaderIcon {
+      position: relative;
+      width: 150px;
+      height: 150px;
+      margin-bottom: 20px;
+      background-color: #ffe7d9;
+      border-radius: 50%;
+      padding: var(--spacing);
+
+      .selectModalHeaderIconImg {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 50%;
+      }
+    }
+
+    .selectModalHeaderTitle {
+      color: #fff;
+      font-size: 20px;
+      font-style: normal;
+      font-weight: 800;
+      line-height: normal;
+      margin-top: 10px;
+      text-transform: uppercase;
+    }
+
+    .selectModalHeaderDescription {
+      color: rgba(255, 255, 255, 0.7);
+      text-align: center;
+      font-size: 15px;
+      font-style: normal;
+      font-weight: 300;
+      line-height: normal;
+      text-transform: capitalize;
+      margin-top: 20px;
+    }
+  }
+
+  .selectModalContent {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    grid-gap: 9px;
+    margin-top: 20px;
+    width: 100%;
+
+    .selectModalContentItem {
+      position: relative;
+      border-radius: var(--border-radius);
+      padding: var(--spacing-min);
+      min-height: 70px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background-color: rgba(255, 255, 255, 0.1);
+      box-shadow: var(--box-shadow);
+      cursor: pointer;
+      border: 2px solid transparent;
+
+      .selectModalContentItemPrice {
+        color: #fff;
+        text-align: center;
+        font-size: 15px;
+        font-style: normal;
+        font-weight: 800;
+        line-height: normal;
+        width: 100%;
+        word-wrap: break-word;
+      }
+
+      .selectModalContentItemPower {
+        color: rgba(255, 255, 255, 0.5);
+        text-align: center;
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+        margin-top: 5px;
+      }
+    }
+
+    .selectModalContentItemSelected {
+      border: 2px solid #fff;
+    }
+  }
+
+  .selectModalContentItemFull {
+    position: relative;
+    border-radius: var(--border-radius);
+    padding: var(--spacing-min);
+    min-height: 70px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.1);
+    box-shadow: var(--box-shadow);
+    width: 100%;
+    margin-top: 10px;
+
+    .selectModalContentItemPrice {
+      color: #fff;
+      font-size: 15px;
+      font-style: normal;
+      font-weight: 800;
+      line-height: normal;
+
+      span {
+        color: #fff;
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+      }
+    }
+
+    .selectModalContentItemPower {
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 12px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: normal;
+      margin-top: 5px;
+    }
+
+    .selectModalContentItemFullRight {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .selectModalContentItemFullPrice {
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 10px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: normal;
+      text-transform: uppercase;
+      margin-bottom: 5px;
+    }
+
+    .selectModalContentItemFullControl {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      border-radius: 10px;
+      border: 1px solid #fff;
+
+      .selectModalContentItemFullControlMinus {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        padding: 9px;
+        color: #fff;
+        cursor: pointer;
+      }
+
+      .selectModalContentItemFullControlNumber {
+        width: 60px;
+        border-left: 1px solid #fff;
+        border-right: 1px solid #fff;
+
+        .selectModalContentItemFullControlNumberInput {
+          width: 100%;
+          height: 100%;
+
+          :global(input) {
+            text-align: center;
+            font-size: 15px;
+            font-weight: 700;
+            padding: 5px;
+            color: #fff;
+          }
+        }
+      }
+
+      .selectModalContentItemFullControlPlus {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        padding: 9px;
+        color: #fff;
+        cursor: pointer;
+      }
+    }
+  }
+
+  .selectModalContentItemButton {
+    margin-top: 9px;
+    font-weight: 700;
+    margin-top: 15px;
+    height: auto;
+    color: rgba(34, 217, 85, 1);
+    background-color: rgba(65, 245, 114, 0.4);
+    border: 2px solid rgba(34, 217, 85, 1);
+    padding: 10px 20px;
+
+    span {
+      color: rgba(255, 255, 255, 1);
+      font-weight: 900;
+    }
+  }
+}

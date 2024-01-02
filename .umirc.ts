@@ -9,6 +9,11 @@ export default defineConfig({
       path: "/",
       component: "home",
     },
+    {
+      name: "MyToken",
+      path: "/mytoken",
+      component: "mytoken",
+    },
   ],
   manifest: {
     basePath: "/",
