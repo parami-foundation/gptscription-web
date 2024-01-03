@@ -2,10 +2,11 @@ import React, { useEffect } from "react";
 import styles from "./style.less";
 import { ReactComponent as Logo } from '@/assets/logo.svg';
 import { IoClose, IoMenu, IoWalletOutline } from 'react-icons/io5';
-import { useLocation, history } from "@umijs/max";
+import { useLocation, history, useModel } from "@umijs/max";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
 import { useAccount } from "wagmi";
 import classNames from "classnames";
+import LoginModal from "@/components/login";
 
 const Header: React.FC = () => {
   const [menu, setMenu] = React.useState<string>('');

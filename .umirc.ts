@@ -14,6 +14,11 @@ export default defineConfig({
       path: "/mytoken",
       component: "mytoken",
     },
+    {
+      name: "Bridge",
+      path: "/bridge",
+      component: "bridge",
+    },
   ],
   manifest: {
     basePath: "/",

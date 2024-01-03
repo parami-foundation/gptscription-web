@@ -20,8 +20,8 @@ const Select: React.FC<{
       isError: boolean;
       isLoading: boolean;
     } = useContractRead({
-      address: `0x${CONTRACT.Optimism.MP}`,
-      abi: require("@/abis/MP.json"),
+      address: `0x${CONTRACT.Goerli.GPTMiner}`,
+      abi: require("@/abis/GPTMiner.json"),
       functionName: "getBuyPriceAfterFee",
       args: [powerValue],
     });
