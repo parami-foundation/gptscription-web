@@ -132,17 +132,10 @@ const Bridge: React.FC = () => {
             transactionHash={transactionHash}
             setTransactionHash={setTransactionHash}
             closeable={false}
+            referrer={referrer}
           />
         </>
       )}
-      <Mine
-        visible={mineModalVisible}
-        setVisible={setMineModalVisible}
-        transactionHash={transactionHash}
-        setTransactionHash={setTransactionHash}
-        closeable={false}
-        referrer={referrer}
-      />
     </div>
   )
 };
