@@ -13,7 +13,7 @@ const Bridge: React.FC = () => {
   const { signature, walletBinded, setWalletModalVisible, setAddress } = useModel('useWallet');
   const { accessToken, setAccessToken, setAccessTokenExpire } = useModel('useAccess');
 
-  const [mineModalVisible, setMineModalVisible] = React.useState<boolean>(true);
+  const [mineModalVisible, setMineModalVisible] = React.useState<boolean>(false);
   const [transactionHash, setTransactionHash] = React.useState<`0x${string}` | undefined>();
   const [referrer, setReferrer] = React.useState<string | undefined>();
 
@@ -66,6 +66,13 @@ const Bridge: React.FC = () => {
       if (!!search?.referrer) {
         setReferrer(search?.referrer as string);
       }
+    } else {
+      notification.error({
+        key: 'accessTokenError',
+        message: 'Access Token Error',
+        description: 'Please check the access token in the URL.',
+        duration: 0,
+      });
     }
   }, []);
 

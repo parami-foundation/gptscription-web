@@ -47,7 +47,7 @@ export default () => {
         message: data?.message,
       };
     } else {
-      antdMessage.info(data?.error_description);
+      antdMessage.info(data?.error_description || "Get nonce failed");
       return {
         nonce: undefined,
         message: undefined,
