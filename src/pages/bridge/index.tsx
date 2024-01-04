@@ -26,11 +26,11 @@ const Bridge: React.FC = () => {
   const { address: connectAddress, isConnected } = useAccount({
     onConnect: (data) => {
       setAddress(data.address);
-      localStorage.setItem('aime:address', data.address as string);
+      localStorage.setItem('gptminer:address', data.address as string);
     },
     onDisconnect: () => {
       setAddress(undefined);
-      localStorage.removeItem('aime:address');
+      localStorage.removeItem('gptminer:address');
     }
   });
 
@@ -39,7 +39,7 @@ const Bridge: React.FC = () => {
 
     if (disconnectSuccess) {
       setAddress(undefined);
-      localStorage.removeItem('aime:address');
+      localStorage.removeItem('gptminer:address');
     }
 
     if (disconnectError) {
