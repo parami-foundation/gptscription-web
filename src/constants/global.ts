@@ -33,11 +33,12 @@ export const API_CONFIG = {
 };
 
 export const ALCHEMY_CONFIG = {
+  Goerli: "tG3loAdZyfqAvKB1uMf88_Z95cXhbWOc",
   Optimism: "Co3hROG5cgCbbMsaIKiGjplscQUvJGhb",
 };
 
 export const INFURA_CONFIG = {
-  apiKey: "912a4876d6f449dea2143b0c6cf07e13",
+  apiKey: "901a77920dae4685978ae537ebb4a069",
 };
 
 export const EXPLORER_CONFIG = {
