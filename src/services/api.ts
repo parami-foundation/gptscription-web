@@ -99,7 +99,7 @@ export async function CreateTransaction(
   options?: { [key: string]: any }
 ) {
   return request(
-    `${API_CONFIG.scheme}://${API_CONFIG.host}/api/v1/transaction/`,
+    `${API_CONFIG.scheme}://${API_CONFIG.host}/gptminer/mine/tx`,
     {
       method: "POST",
       headers: {

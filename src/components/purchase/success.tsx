@@ -6,7 +6,7 @@ import { THEME_CONFIG } from "@/constants/theme";
 const PurchaseSuccess: React.FC<{
   visible: boolean;
   setVisible: (visible: boolean) => void;
-  transactionHash: `0x${string}` | undefined;
+  transactionHash: `0x${string}` | null;
   onSuccess?: () => void;
 }> = ({ visible, setVisible, transactionHash, onSuccess }) => {
   return (

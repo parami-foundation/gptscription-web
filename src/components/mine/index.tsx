@@ -14,9 +14,9 @@ const Detail: React.FC<{
   setPurchaseSuccessVisible: React.Dispatch<React.SetStateAction<boolean>>;
   setPurchaseFailedVisible: React.Dispatch<React.SetStateAction<boolean>>;
   setError: React.Dispatch<React.SetStateAction<Error>>;
-  setTransactionHash: React.Dispatch<React.SetStateAction<`0x${string}` | undefined>>;
+  setTransactionHash: React.Dispatch<React.SetStateAction<`0x${string}` | null>>;
   setBuyModalVisible: (visible: boolean) => void;
-  referrer?: string;
+  referrer?: string | null;
 }> = ({ setPurchaseSuccessVisible, setPurchaseFailedVisible, setError, setTransactionHash, setBuyModalVisible, referrer }) => {
   const { accessToken } = useModel("useAccess");
   const { publicClient } = useModel("useWagmi");
@@ -156,10 +156,10 @@ const Detail: React.FC<{
 const Mine: React.FC<{
   visible: boolean;
   setVisible: (visible: boolean) => void;
-  transactionHash: `0x${string}` | undefined;
-  setTransactionHash: React.Dispatch<React.SetStateAction<`0x${string}` | undefined>>;
+  transactionHash: `0x${string}` | null;
+  setTransactionHash: React.Dispatch<React.SetStateAction<`0x${string}` | null>>;
   closeable?: boolean;
-  referrer?: string;
+  referrer?: string | null;
 }> = ({ visible, setVisible, transactionHash, setTransactionHash, closeable, referrer }) => {
   const { bindedAddress } = useModel("useWallet");
 
@@ -169,6 +169,15 @@ const Mine: React.FC<{
 
   const { connector, address: connectAddress } = useAccount();
   const { disconnect } = useDisconnect();
+
+  useEffect(() => {
+    if (!visible) {
+      setPurchaseSuccessVisible(false);
+      setPurchaseFailedVisible(false);
+      setError(new Error(""));
+      setTransactionHash(null);
+    }
+  }, [visible]);
 
   useEffect(() => {
     DEBUG && console.log("bindedAddress", bindedAddress);

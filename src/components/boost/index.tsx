@@ -1,20 +1,40 @@
 import React, { useEffect } from 'react';
 import styles from './style.less';
-import { Button, ConfigProvider, InputNumber, Modal, theme } from 'antd';
-import { useAccount, useContractRead, useDisconnect } from 'wagmi';
-import { CONTRACT } from '@/constants/global';
+import { Button, ConfigProvider, InputNumber, Modal, notification, theme } from 'antd';
+import { useAccount, useBalance, useContractRead, useContractWrite, useDisconnect, useNetwork, useSwitchNetwork } from 'wagmi';
+import { CONTRACT, DEBUG, NETWORK_CONFIG } from '@/constants/global';
 import classNames from 'classnames';
 import { formatEther } from 'viem';
 import { AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai';
 import { THEME_CONFIG } from '@/constants/theme';
+import PurchaseSuccess from '../purchase/success';
+import PurchaseFailed from '../purchase/failed';
+import { useModel } from '@umijs/max';
+import { CreateTransaction } from '@/services/api';
 
 const Select: React.FC<{
   powerValue: number;
   setPowerValue: (powerValue: number) => void;
-}> = ({ powerValue, setPowerValue }) => {
-  const [manualInput, setManualInput] = React.useState<number>(0);
+  setPurchaseSuccessVisible: React.Dispatch<React.SetStateAction<boolean>>;
+  setPurchaseFailedVisible: React.Dispatch<React.SetStateAction<boolean>>;
+  setError: React.Dispatch<React.SetStateAction<Error>>;
+  setTransactionHash: React.Dispatch<React.SetStateAction<`0x${string}` | null>>;
+  setBoostModalVisible: (visible: boolean) => void;
+}> = ({ powerValue, setPowerValue, setPurchaseSuccessVisible, setPurchaseFailedVisible, setError, setTransactionHash, setBoostModalVisible }) => {
+  const { accessToken } = useModel("useAccess");
+  const { publicClient } = useModel("useWagmi");
 
-  const getEthValue = (powerValue: number) => {
+  const [gas, setGas] = React.useState<bigint>(0n);
+
+  const { address } = useAccount();
+  const { data: balance } = useBalance({
+    address: address,
+  });
+  const { chain: currentChain } = useNetwork();
+  const { chains, error: switchNetworkError, isLoading: switchNetworkLoading, pendingChainId, switchNetwork } =
+    useSwitchNetwork();
+
+  const getEthValue = (value: number) => {
     const { data: ethValue }: {
       data?: bigint;
       isError: boolean;
@@ -23,11 +43,66 @@ const Select: React.FC<{
       address: `0x${CONTRACT.Goerli.GPTMiner}`,
       abi: require("@/abis/GPTMiner.json"),
       functionName: "getBuyPriceAfterFee",
-      args: [powerValue],
+      args: [value],
     });
 
     return ethValue;
   };
+
+  const { data: ethValue }: {
+    data?: bigint;
+    isError: boolean;
+    isLoading: boolean;
+  } = useContractRead({
+    address: `0x${CONTRACT.Goerli.GPTMiner}`,
+    abi: require("@/abis/GPTMiner.json"),
+    functionName: "getBuyPriceAfterFee",
+    args: [powerValue],
+  });
+
+  const { data, isLoading, isSuccess, error, write } = useContractWrite({
+    address: `0x${CONTRACT.Goerli.GPTMiner}`,
+    abi: require("@/abis/GPTMiner.json"),
+    functionName: 'boost',
+  });
+
+  useEffect(() => {
+    if (!powerValue) return;
+    (async () => {
+      const gas = await publicClient?.estimateContractGas({
+        address: `0x${CONTRACT.Goerli.GPTMiner}`,
+        abi: require("@/abis/GPTMiner.json"),
+        functionName: 'mine',
+        args: [
+          powerValue,
+        ],
+        account: address as `0x${string}`,
+        value: ethValue,
+      });
+      setGas(gas ?? 0n);
+    })();
+  }, [publicClient, powerValue]);
+
+  useEffect(() => {
+    ; (async () => {
+      if (isSuccess && !!data?.hash && !!accessToken) {
+        setBoostModalVisible(false);
+        setPurchaseSuccessVisible(true);
+        setTransactionHash(data?.hash);
+
+        await CreateTransaction({
+          chain_id: NETWORK_CONFIG?.chains[0]?.id?.toString(),
+          address: address,
+          hash: data?.hash,
+        }, accessToken);
+      }
+
+      if (!!error) {
+        setPurchaseFailedVisible(true);
+        setError(error);
+      }
+    })();
+  }, [accessToken, data, isSuccess, error]);
 
   return (
     <div className={styles.selectModalContainer}>
@@ -48,9 +123,9 @@ const Select: React.FC<{
       </div>
       <div className={styles.selectModalContent}>
         <div
-          className={classNames(styles.selectModalContentItem, manualInput === 1 && styles.selectModalContentItemSelected)}
+          className={classNames(styles.selectModalContentItem, powerValue === 1 && styles.selectModalContentItemSelected)}
           onClick={() => {
-            setManualInput(1);
+            setPowerValue(1);
           }}
         >
           <div className={styles.selectModalContentItemPrice}>
@@ -61,9 +136,9 @@ const Select: React.FC<{
           </div>
         </div>
         <div
-          className={classNames(styles.selectModalContentItem, manualInput === 10 && styles.selectModalContentItemSelected)}
+          className={classNames(styles.selectModalContentItem, powerValue === 10 && styles.selectModalContentItemSelected)}
           onClick={() => {
-            setManualInput(10);
+            setPowerValue(10);
           }}
         >
           <div className={styles.selectModalContentItemPrice}>
@@ -74,9 +149,9 @@ const Select: React.FC<{
           </div>
         </div>
         <div
-          className={classNames(styles.selectModalContentItem, manualInput === 100 && styles.selectModalContentItemSelected)}
+          className={classNames(styles.selectModalContentItem, powerValue === 100 && styles.selectModalContentItemSelected)}
           onClick={() => {
-            setManualInput(100);
+            setPowerValue(100);
           }}
         >
           <div className={styles.selectModalContentItemPrice}>
@@ -90,10 +165,10 @@ const Select: React.FC<{
       <div className={styles.selectModalContentItemFull}>
         <div className={styles.selectModalContentItemFullLeft}>
           <div className={styles.selectModalContentItemPrice}>
-            {formatEther(getEthValue(manualInput) ?? 0n)} ETH
+            {formatEther(getEthValue(powerValue) ?? 0n)} ETH
           </div>
           <div className={styles.selectModalContentItemPower}>
-            {manualInput} Power
+            {powerValue} Power
           </div>
         </div>
         <div className={styles.selectModalContentItemFullRight}>
@@ -101,8 +176,8 @@ const Select: React.FC<{
             <div
               className={styles.selectModalContentItemFullControlMinus}
               onClick={() => {
-                if (manualInput > 0) {
-                  setManualInput(manualInput - 1);
+                if (powerValue > 0) {
+                  setPowerValue(powerValue - 1);
                 }
               }}
             >
@@ -116,18 +191,18 @@ const Select: React.FC<{
                 min={0}
                 max={100}
                 defaultValue={0}
-                value={manualInput}
+                value={powerValue}
                 type="number"
                 onChange={(e) => {
-                  setManualInput(e!);
+                  setPowerValue(e!);
                 }}
               />
             </div>
             <div
               className={styles.selectModalContentItemFullControlPlus}
               onClick={() => {
-                if (manualInput < 100) {
-                  setManualInput(manualInput + 1);
+                if (powerValue < 100) {
+                  setPowerValue(powerValue + 1);
                 }
               }}
             >
@@ -147,18 +222,43 @@ const Select: React.FC<{
           },
         }}
       >
-        <Button
-          block
-          type="primary"
-          size="large"
-          className={styles.selectModalContentItemButton}
-          disabled={manualInput === 0}
-          onClick={() => {
-            setPowerValue(manualInput);
-          }}
-        >
-          <span>Confirm Purchase</span>
-        </Button>
+        {currentChain?.id !== chains[0]?.id ? (
+          <Button
+            block
+            type="primary"
+            size="large"
+            className={styles.selectModalContentItemButton}
+            loading={switchNetworkLoading && pendingChainId === chains[0]?.id}
+            onClick={() => {
+              switchNetwork?.(chains[0]?.id);
+            }}
+          >
+            <span>Change Network</span>
+          </Button>
+        ) : (
+          <Button
+            block
+            type="primary"
+            size="large"
+            className={styles.selectModalContentItemButton}
+            loading={isLoading}
+            disabled={!powerValue || parseFloat(balance?.formatted ?? "0") === 0 || parseFloat(balance?.formatted ?? "0") < parseFloat(formatEther(ethValue ?? 0n + gas))}
+            onClick={() => {
+              write({
+                args: [
+                  powerValue,
+                ],
+                value: ethValue ?? 0n + gas,
+              })
+            }}
+          >
+            {(parseFloat(balance?.formatted ?? "0") === 0 || parseFloat(balance?.formatted ?? "0") < parseFloat(formatEther(ethValue ?? 0n + gas))) ? (
+              <span>Insufficient Balance</span>
+            ) : (
+              <span>Confirm Purchase</span>
+            )}
+          </Button>
+        )}
       </ConfigProvider>
     </div>
   )
@@ -167,8 +267,12 @@ const Select: React.FC<{
 const Boost: React.FC<{
   visible: boolean;
   setVisible: (visible: boolean) => void;
+  transactionHash: `0x${string}` | null;
+  setTransactionHash: React.Dispatch<React.SetStateAction<`0x${string}` | null>>;
   closeable?: boolean;
-}> = ({ visible, setVisible, closeable }) => {
+}> = ({ visible, setVisible, transactionHash, setTransactionHash, closeable }) => {
+  const { bindedAddress } = useModel("useWallet");
+
   const [powerValue, setPowerValue] = React.useState<number>(0);
   const [purchaseSuccessVisible, setPurchaseSuccessVisible] = React.useState<boolean>(false);
   const [purchaseFailedVisible, setPurchaseFailedVisible] = React.useState<boolean>(false);
@@ -183,30 +287,62 @@ const Boost: React.FC<{
       setPurchaseSuccessVisible(false);
       setPurchaseFailedVisible(false);
       setError(new Error(""));
+      setTransactionHash(null);
     }
   }, [visible]);
 
+  useEffect(() => {
+    DEBUG && console.log("bindedAddress", bindedAddress);
+    DEBUG && console.log("connectAddress", connectAddress);
+    if (!!bindedAddress && !!connectAddress && bindedAddress !== connectAddress) {
+      notification.error({
+        key: 'walletError',
+        message: 'Wallet Error',
+        description: `Please use the wallet you binded. And please make sure you are on the right network. ${NETWORK_CONFIG?.chains[0]?.name} is required.`
+      });
+      disconnect();
+      setVisible(false);
+    }
+  }, [bindedAddress, connectAddress]);
+
   return (
-    <Modal
-      centered
-      title={null}
-      footer={null}
-      className={styles.boostModal}
-      open={visible}
-      onCancel={() => setVisible(false)}
-      closable={closeable ?? true}
-      maskClosable={closeable ?? true}
-    >
-      {connector?.id === 'walletConnect' && (
-        <div className={styles.walletConnectAccount}>
-          <w3m-account-button />
-        </div>
-      )}
-      <Select
-        powerValue={powerValue}
-        setPowerValue={setPowerValue}
+    <>
+      <Modal
+        centered
+        title={null}
+        footer={null}
+        className={styles.boostModal}
+        open={visible}
+        onCancel={() => setVisible(false)}
+        closable={closeable ?? true}
+        maskClosable={closeable ?? true}
+      >
+        {connector?.id === 'walletConnect' && (
+          <div className={styles.walletConnectAccount}>
+            <w3m-account-button />
+          </div>
+        )}
+        <Select
+          powerValue={powerValue}
+          setPowerValue={setPowerValue}
+          setPurchaseSuccessVisible={setPurchaseSuccessVisible}
+          setPurchaseFailedVisible={setPurchaseFailedVisible}
+          setError={setError}
+          setTransactionHash={setTransactionHash}
+          setBoostModalVisible={setVisible}
+        />
+      </Modal>
+      <PurchaseSuccess
+        visible={purchaseSuccessVisible}
+        setVisible={setPurchaseSuccessVisible}
+        transactionHash={transactionHash}
       />
-    </Modal>
+      <PurchaseFailed
+        visible={purchaseFailedVisible}
+        setVisible={setPurchaseFailedVisible}
+        error={error}
+      />
+    </>
   )
 };
 

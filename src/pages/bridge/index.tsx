@@ -8,14 +8,17 @@ import LoginModal from "@/components/login";
 import { notification } from "antd";
 import { GPT_CONFIG } from '@/constants/global';
 import Mine from '@/components/mine';
+import Boost from '@/components/boost';
 
 const Bridge: React.FC = () => {
   const { signature, walletBinded, setWalletModalVisible, setAddress } = useModel('useWallet');
   const { accessToken, setAccessToken, setAccessTokenExpire } = useModel('useAccess');
 
   const [mineModalVisible, setMineModalVisible] = React.useState<boolean>(false);
-  const [transactionHash, setTransactionHash] = React.useState<`0x${string}` | undefined>();
-  const [referrer, setReferrer] = React.useState<string | undefined>();
+  const [boostModalVisible, setBoostModalVisible] = React.useState<boolean>(true);
+
+  const [transactionHash, setTransactionHash] = React.useState<`0x${string}` | null>(null);
+  const [referrer, setReferrer] = React.useState<string | null>(null);
 
   const { chain: currentChain } = useNetwork();
   const { chains } = useSwitchNetwork();
@@ -94,6 +97,15 @@ const Bridge: React.FC = () => {
           }
           break;
 
+        case "boost":
+          if (!!connectAddress && isConnected && currentChain?.id === chains[0]?.id && (!!signature || walletBinded)) {
+            setBoostModalVisible(true);
+            if (!!transactionHash) {
+              window.location.href = `${GPT_CONFIG.url}`;
+            }
+          }
+          break;
+
         default:
           notification.error({
             key: 'actionError',
@@ -134,8 +146,22 @@ const Bridge: React.FC = () => {
             closeable={false}
             referrer={referrer}
           />
+          <Boost
+            visible={boostModalVisible}
+            setVisible={setBoostModalVisible}
+            transactionHash={transactionHash}
+            setTransactionHash={setTransactionHash}
+            closeable={false}
+          />
         </>
       )}
+      <Boost
+        visible={boostModalVisible}
+        setVisible={setBoostModalVisible}
+        transactionHash={transactionHash}
+        setTransactionHash={setTransactionHash}
+        closeable={false}
+      />
     </div>
   )
 };
