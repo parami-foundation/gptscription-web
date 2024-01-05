@@ -15,7 +15,7 @@ const Bridge: React.FC = () => {
   const { accessToken, setAccessToken, setAccessTokenExpire } = useModel('useAccess');
 
   const [mineModalVisible, setMineModalVisible] = React.useState<boolean>(false);
-  const [boostModalVisible, setBoostModalVisible] = React.useState<boolean>(true);
+  const [boostModalVisible, setBoostModalVisible] = React.useState<boolean>(false);
 
   const [transactionHash, setTransactionHash] = React.useState<`0x${string}` | null>(null);
   const [referrer, setReferrer] = React.useState<string | null>(null);
@@ -57,18 +57,18 @@ const Bridge: React.FC = () => {
   useEffect(() => {
     const now = new Date().getTime();
 
-    if (!!search?.access_token_expire && parseInt(search?.access_token_expire as string) > now) {
-      setAccessTokenExpire(parseInt(search?.access_token_expire as string));
-      localStorage.setItem('gptminer:accessToken:expire', search?.access_token_expire as string);
+    if (!!search?.access_token_expire && parseInt(search?.access_token_expire as string) * 1000 > now) {
+      setAccessTokenExpire(parseInt(search?.access_token_expire as string) * 1000);
+      localStorage.setItem('gptminer:accessToken:expire', (parseInt(search?.access_token_expire as string) * 1000).toString());
 
       if (!!search?.access_token) {
         setAccessToken(search?.access_token as string);
         localStorage.setItem('gptminer:accessToken', search?.access_token as string);
       }
 
-      if (!!search?.referrer) {
-        setReferrer(search?.referrer as string);
-      }
+      // if (!!search?.referrer) {
+      //   setReferrer(search?.referrer as string);
+      // }
     } else {
       notification.error({
         key: 'accessTokenError',
@@ -81,6 +81,7 @@ const Bridge: React.FC = () => {
 
   useEffect(() => {
     if (!!search?.action) {
+      setWalletModalVisible(true);
       switch (search?.action) {
         case "bind":
           if (!!connectAddress && isConnected && currentChain?.id === chains[0]?.id && (!!signature || walletBinded)) {
@@ -155,13 +156,6 @@ const Bridge: React.FC = () => {
           />
         </>
       )}
-      <Boost
-        visible={boostModalVisible}
-        setVisible={setBoostModalVisible}
-        transactionHash={transactionHash}
-        setTransactionHash={setTransactionHash}
-        closeable={false}
-      />
     </div>
   )
 };

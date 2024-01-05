@@ -34,30 +34,14 @@ const Select: React.FC<{
   const { chains, error: switchNetworkError, isLoading: switchNetworkLoading, pendingChainId, switchNetwork } =
     useSwitchNetwork();
 
-  const getEthValue = (value: number) => {
-    const { data: ethValue }: {
-      data?: bigint;
-      isError: boolean;
-      isLoading: boolean;
-    } = useContractRead({
-      address: `0x${CONTRACT.Goerli.GPTMiner}`,
-      abi: require("@/abis/GPTMiner.json"),
-      functionName: "getBuyPriceAfterFee",
-      args: [value],
-    });
-
-    return ethValue;
-  };
-
-  const { data: ethValue }: {
+  const getBoostUnit: {
     data?: bigint;
     isError: boolean;
     isLoading: boolean;
   } = useContractRead({
     address: `0x${CONTRACT.Goerli.GPTMiner}`,
     abi: require("@/abis/GPTMiner.json"),
-    functionName: "getBuyPriceAfterFee",
-    args: [powerValue],
+    functionName: "boostUnit",
   });
 
   const { data, isLoading, isSuccess, error, write } = useContractWrite({
@@ -72,12 +56,10 @@ const Select: React.FC<{
       const gas = await publicClient?.estimateContractGas({
         address: `0x${CONTRACT.Goerli.GPTMiner}`,
         abi: require("@/abis/GPTMiner.json"),
-        functionName: 'mine',
-        args: [
-          powerValue,
-        ],
+        functionName: 'boost',
+        args: [],
         account: address as `0x${string}`,
-        value: ethValue,
+        value: (getBoostUnit?.data ?? 0n) * BigInt(powerValue),
       });
       setGas(gas ?? 0n);
     })();
@@ -129,7 +111,7 @@ const Select: React.FC<{
           }}
         >
           <div className={styles.selectModalContentItemPrice}>
-            {formatEther(getEthValue(1) ?? 0n)} ETH
+            {formatEther((getBoostUnit?.data ?? 0n) * BigInt(1))} ETH
           </div>
           <div className={styles.selectModalContentItemPower}>
             1 MP
@@ -142,7 +124,7 @@ const Select: React.FC<{
           }}
         >
           <div className={styles.selectModalContentItemPrice}>
-            {formatEther(getEthValue(10) ?? 0n)} ETH
+            {formatEther((getBoostUnit?.data ?? 0n) * BigInt(10))} ETH
           </div>
           <div className={styles.selectModalContentItemPower}>
             10 MP
@@ -155,7 +137,7 @@ const Select: React.FC<{
           }}
         >
           <div className={styles.selectModalContentItemPrice}>
-            {formatEther(getEthValue(100) ?? 0n)} ETH
+            {formatEther((getBoostUnit?.data ?? 0n) * BigInt(100))} ETH
           </div>
           <div className={styles.selectModalContentItemPower}>
             100 MP
@@ -165,7 +147,7 @@ const Select: React.FC<{
       <div className={styles.selectModalContentItemFull}>
         <div className={styles.selectModalContentItemFullLeft}>
           <div className={styles.selectModalContentItemPrice}>
-            {formatEther(getEthValue(powerValue) ?? 0n)} ETH
+            {formatEther((getBoostUnit?.data ?? 0n) * BigInt(powerValue))} ETH
           </div>
           <div className={styles.selectModalContentItemPower}>
             {powerValue} Power
@@ -242,17 +224,14 @@ const Select: React.FC<{
             size="large"
             className={styles.selectModalContentItemButton}
             loading={isLoading}
-            disabled={!powerValue || parseFloat(balance?.formatted ?? "0") === 0 || parseFloat(balance?.formatted ?? "0") < parseFloat(formatEther(ethValue ?? 0n + gas))}
+            // disabled={!powerValue || parseFloat(balance?.formatted ?? "0") === 0 || parseFloat(balance?.formatted ?? "0") < parseFloat(formatEther((getBoostUnit?.data ?? 0n) * BigInt(powerValue) + gas))}
             onClick={() => {
               write({
-                args: [
-                  powerValue,
-                ],
-                value: ethValue ?? 0n + gas,
+                value: (getBoostUnit?.data ?? 0n) * BigInt(powerValue) + gas,
               })
             }}
           >
-            {(parseFloat(balance?.formatted ?? "0") === 0 || parseFloat(balance?.formatted ?? "0") < parseFloat(formatEther(ethValue ?? 0n + gas))) ? (
+            {(parseFloat(balance?.formatted ?? "0") === 0 || parseFloat(balance?.formatted ?? "0") < parseFloat(formatEther((getBoostUnit?.data ?? 0n) * BigInt(powerValue) ?? 0n + gas))) ? (
               <span>Insufficient Balance</span>
             ) : (
               <span>Confirm Purchase</span>
