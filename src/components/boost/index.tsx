@@ -224,7 +224,7 @@ const Select: React.FC<{
             size="large"
             className={styles.selectModalContentItemButton}
             loading={isLoading}
-            // disabled={!powerValue || parseFloat(balance?.formatted ?? "0") === 0 || parseFloat(balance?.formatted ?? "0") < parseFloat(formatEther((getBoostUnit?.data ?? 0n) * BigInt(powerValue) + gas))}
+            disabled={!powerValue || parseFloat(balance?.formatted ?? "0") === 0 || parseFloat(balance?.formatted ?? "0") < parseFloat(formatEther((getBoostUnit?.data ?? 0n) * BigInt(powerValue) + gas))}
             onClick={() => {
               write({
                 value: (getBoostUnit?.data ?? 0n) * BigInt(powerValue) + gas,
