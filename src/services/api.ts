@@ -112,3 +112,22 @@ export async function CreateTransaction(
     }
   );
 }
+
+export async function GetAddressByRef(
+  ref: string,
+  accessToken: string,
+  options?: { [key: string]: any }
+) {
+  return request<Resp.GetAddressByRef>(
+    `${API_CONFIG.scheme}://${API_CONFIG.host}/gptminer/referrer/addr?code=${ref}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+      ...(options || {}),
+      getResponse: true,
+    }
+  );
+}

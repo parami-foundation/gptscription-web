@@ -6,6 +6,7 @@ import Boost from '@/components/boost';
 
 const MyToken: React.FC = () => {
   const [visible, setVisible] = React.useState<boolean>(false);
+  const [transactionHash, setTransactionHash] = React.useState<`0x${string}` | null>(null);
 
   return (
     <div className={styles.myTokenContainer}>
@@ -116,6 +117,8 @@ const MyToken: React.FC = () => {
       <Boost
         visible={visible}
         setVisible={setVisible}
+        transactionHash={transactionHash}
+        setTransactionHash={setTransactionHash}
       />
     </div>
   )

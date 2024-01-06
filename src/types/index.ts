@@ -83,4 +83,9 @@ export declare namespace Resp {
     finalized?: boolean;
     finalized_at?: string;
   }
+
+  interface GetAddressByRef extends Body {
+    status?: string;
+    data?: string;
+  }
 }

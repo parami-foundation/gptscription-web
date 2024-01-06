@@ -9,6 +9,7 @@ import { notification } from "antd";
 import { GPT_CONFIG } from '@/constants/global';
 import Mine from '@/components/mine';
 import Boost from '@/components/boost';
+import { GetAddressByRef } from '@/services/api';
 
 const Bridge: React.FC = () => {
   const { signature, walletBinded, setWalletModalVisible, setAddress } = useModel('useWallet');
@@ -55,28 +56,33 @@ const Bridge: React.FC = () => {
   }, [disconnectError, disconnectSuccess]);
 
   useEffect(() => {
-    const now = new Date().getTime();
+    ; (async () => {
+      const now = new Date().getTime();
 
-    if (!!search?.access_token_expire && parseInt(search?.access_token_expire as string) * 1000 > now) {
-      setAccessTokenExpire(parseInt(search?.access_token_expire as string) * 1000);
-      localStorage.setItem('gptminer:accessToken:expire', (parseInt(search?.access_token_expire as string) * 1000).toString());
+      if (!!search?.access_token_expire && parseInt(search?.access_token_expire as string) * 1000 > now) {
+        setAccessTokenExpire(parseInt(search?.access_token_expire as string) * 1000);
+        localStorage.setItem('gptminer:accessToken:expire', (parseInt(search?.access_token_expire as string) * 1000).toString());
 
-      if (!!search?.access_token) {
-        setAccessToken(search?.access_token as string);
-        localStorage.setItem('gptminer:accessToken', search?.access_token as string);
+        if (!!search?.access_token) {
+          setAccessToken(search?.access_token as string);
+          localStorage.setItem('gptminer:accessToken', search?.access_token as string);
+        }
+
+        if (!!search?.referrer) {
+          const { response, data } = await GetAddressByRef(search?.referrer as string, search?.access_token as string);
+          if (response?.status === 200 && !!data?.data) {
+            setReferrer(data?.data);
+          }
+        }
+      } else {
+        notification.error({
+          key: 'accessTokenError',
+          message: 'Access Token Error',
+          description: 'Please check the access token in the URL.',
+          duration: 0,
+        });
       }
-
-      // if (!!search?.referrer) {
-      //   setReferrer(search?.referrer as string);
-      // }
-    } else {
-      notification.error({
-        key: 'accessTokenError',
-        message: 'Access Token Error',
-        description: 'Please check the access token in the URL.',
-        duration: 0,
-      });
-    }
+    })();
   }, []);
 
   useEffect(() => {
