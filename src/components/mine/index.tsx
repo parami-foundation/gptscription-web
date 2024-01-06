@@ -160,11 +160,14 @@ const Mine: React.FC<{
   closeable?: boolean;
   referrer?: string | null;
 }> = ({ visible, setVisible, transactionHash, setTransactionHash, closeable, referrer }) => {
+  const { bindedAddress } = useModel("useWallet");
+
   const [purchaseSuccessVisible, setPurchaseSuccessVisible] = React.useState<boolean>(false);
   const [purchaseFailedVisible, setPurchaseFailedVisible] = React.useState<boolean>(false);
   const [error, setError] = React.useState<Error>(new Error(""));
 
-  const { connector } = useAccount();
+  const { connector, address: connectAddress } = useAccount();
+  const { disconnect } = useDisconnect();
 
   useEffect(() => {
     if (!visible) {
@@ -174,6 +177,20 @@ const Mine: React.FC<{
       setTransactionHash(null);
     }
   }, [visible]);
+
+  useEffect(() => {
+    DEBUG && console.log("bindedAddress", bindedAddress);
+    DEBUG && console.log("connectAddress", connectAddress);
+    if (!!bindedAddress && !!connectAddress && bindedAddress !== connectAddress) {
+      notification.error({
+        key: 'walletError',
+        message: 'Wallet Error',
+        description: `Please use the wallet you binded. And please make sure you are on the right network. ${NETWORK_CONFIG?.chains[0]?.name} is required.`
+      });
+      disconnect();
+      setVisible(false);
+    }
+  }, [bindedAddress, connectAddress]);
 
   return (
     <>

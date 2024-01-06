@@ -12,7 +12,7 @@ import Boost from '@/components/boost';
 import { GetAddressByRef } from '@/services/api';
 
 const Bridge: React.FC = () => {
-  const { setWalletModalVisible, setAddress } = useModel('useWallet');
+  const { signature, walletBinded, setWalletModalVisible, setAddress } = useModel('useWallet');
   const { accessToken, setAccessToken, setAccessTokenExpire } = useModel('useAccess');
 
   const [mineModalVisible, setMineModalVisible] = React.useState<boolean>(false);
@@ -29,11 +29,11 @@ const Bridge: React.FC = () => {
   const { disconnect, error: disconnectError, isSuccess: disconnectSuccess } = useDisconnect();
   const { address: connectAddress, isConnected } = useAccount({
     onConnect: (data) => {
-      setAddress(data.address);
+      setAddress(data.address as `0x${string}`);
       localStorage.setItem('gptminer:address', data.address as string);
     },
     onDisconnect: () => {
-      setAddress(undefined);
+      setAddress(null);
       localStorage.removeItem('gptminer:address');
     }
   });
@@ -42,7 +42,7 @@ const Bridge: React.FC = () => {
     disconnect();
 
     if (disconnectSuccess) {
-      setAddress(undefined);
+      setAddress(null);
       localStorage.removeItem('gptminer:address');
     }
 
@@ -78,7 +78,7 @@ const Bridge: React.FC = () => {
         notification.error({
           key: 'accessTokenError',
           message: 'Access Token Error',
-          description: 'Please check the access token in the URL.',
+          description: 'Please check the access token expire in the URL.',
           duration: 0,
         });
       }
@@ -90,27 +90,25 @@ const Bridge: React.FC = () => {
       setWalletModalVisible(true);
       switch (search?.action) {
         case "bind":
-          if (!!connectAddress && isConnected && currentChain?.id === chains[0]?.id) {
+          if (!!connectAddress && isConnected && currentChain?.id === chains[0]?.id && (!!signature || walletBinded)) {
             window.location.href = `${GPT_CONFIG.url}`;
           }
           break;
 
         case "mine":
-          if (!!connectAddress && isConnected && currentChain?.id === chains[0]?.id) {
+          if (!!connectAddress && isConnected && currentChain?.id === chains[0]?.id && (!!signature || walletBinded)) {
             setMineModalVisible(true);
             if (!!transactionHash) {
-              DEBUG && console.log(transactionHash);
-              // window.location.href = `${GPT_CONFIG.url}`;
+              window.location.href = `${GPT_CONFIG.url}`;
             }
           }
           break;
 
         case "boost":
-          if (!!connectAddress && isConnected && currentChain?.id === chains[0]?.id) {
+          if (!!connectAddress && isConnected && currentChain?.id === chains[0]?.id && (!!signature || walletBinded)) {
             setBoostModalVisible(true);
             if (!!transactionHash) {
-              DEBUG && console.log(transactionHash);
-              // window.location.href = `${GPT_CONFIG.url}`;
+              window.location.href = `${GPT_CONFIG.url}`;
             }
           }
           break;
@@ -138,6 +136,18 @@ const Bridge: React.FC = () => {
       <div className={styles.logoContainer}>
         <div className={styles.logo}>
           <Logo />
+        </div>
+      </div>
+      <div className={styles.contentContainer}>
+        <div className={styles.iconContainer}>
+          <img
+            className={styles.icon}
+            src={require('@/assets/icon/clock.png')}
+            alt="clock"
+          />
+        </div>
+        <div className={styles.textContainer}>
+          Minting Will Start Soon...
         </div>
       </div>
       {!!accessToken && (

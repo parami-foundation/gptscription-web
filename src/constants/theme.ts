@@ -4,7 +4,7 @@ export const THEME_CONFIG = {
   colorPrimary: "#000",
   colorSecondary: "rgba(65, 245, 114, 0.8)",
   colorWhite: "#fff",
-  colorGray: "#f5f5f5",
+  colorGray: "#999999",
   colorBlack: "#000",
   colorThird: "#eeeeee",
   colorBackground: "#fff",

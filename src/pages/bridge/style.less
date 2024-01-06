@@ -7,6 +7,40 @@
   min-height: 100vh;
   width: 100%;
 
+  .contentContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+
+    .iconContainer {
+      width: 160px;
+      height: 160px;
+      background-color: rgba(255, 255, 255, 0.08);
+      border-radius: 100%;
+      padding: 20px;
+
+      .icon {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        filter: grayscale(1);
+        opacity: 0.5;
+      }
+    }
+
+    .textContainer {
+      color: #fff;
+      text-align: center;
+      font-size: 24px;
+      font-style: normal;
+      font-weight: 800;
+      line-height: normal;
+      margin-top: 20px;
+    }
+  }
+
   .logoContainer {
     position: absolute;
     left: 0;

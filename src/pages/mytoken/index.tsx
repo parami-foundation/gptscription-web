@@ -3,9 +3,11 @@ import styles from './style.less';
 import { Progress } from 'antd';
 import { FaRocket } from 'react-icons/fa';
 import Boost from '@/components/boost';
+import Share from '@/components/share';
 
 const MyToken: React.FC = () => {
-  const [visible, setVisible] = React.useState<boolean>(false);
+  const [boostVisible, setBoostVisible] = React.useState<boolean>(false);
+  const [shareVisible, setShareVisible] = React.useState<boolean>(false);
   const [transactionHash, setTransactionHash] = React.useState<`0x${string}` | null>(null);
 
   return (
@@ -43,14 +45,17 @@ const MyToken: React.FC = () => {
             <div className={styles.buttonsContainer}>
               <div
                 className={styles.boostButton}
-                onClick={() => setVisible(true)}
+                onClick={() => setBoostVisible(true)}
               >
                 <FaRocket
                   className={styles.boostIcon}
                 />
                 <span>Boost Minting Speed</span>
               </div>
-              <div className={styles.shareButton}>
+              <div
+                className={styles.shareButton}
+                onClick={() => setShareVisible(true)}
+              >
                 <span>Share To Increase Minting Speed</span>
               </div>
             </div>
@@ -115,10 +120,14 @@ const MyToken: React.FC = () => {
         </div>
       </div>
       <Boost
-        visible={visible}
-        setVisible={setVisible}
+        visible={boostVisible}
+        setVisible={setBoostVisible}
         transactionHash={transactionHash}
         setTransactionHash={setTransactionHash}
+      />
+      <Share
+        visible={shareVisible}
+        setVisible={setShareVisible}
       />
     </div>
   )

@@ -6,24 +6,25 @@ import { useModel } from "@umijs/max";
 import Loading from "./loading";
 import ConnectWallet from "./connectWallet";
 import SwitchNetwork from "./switchNetwork";
+import SignMessage from "./signMessage";
 
 const LoginModal: React.FC<{
   visible: boolean;
   setVisible: React.Dispatch<React.SetStateAction<boolean>>;
   closeable?: boolean;
 }> = ({ visible, setVisible, closeable }) => {
-  const { setAddress } = useModel('useWallet');
+  const { signature, walletBinded, setAddress } = useModel('useWallet');
 
   const { chain: currentChain } = useNetwork();
   const { chains } = useSwitchNetwork();
 
   const { connector, address, isConnected } = useAccount({
     onConnect: (data) => {
-      setAddress(data.address);
+      setAddress(data.address as `0x${string}`);
       localStorage.setItem('gptminer:address', data.address as string);
     },
     onDisconnect: () => {
-      setAddress(undefined);
+      setAddress(null);
       localStorage.removeItem('gptminer:address');
     }
   });
@@ -51,7 +52,10 @@ const LoginModal: React.FC<{
         {!!address && isConnected && currentChain?.id !== chains[0]?.id && (
           <SwitchNetwork />
         )}
-        {!!address && isConnected && currentChain?.id === chains[0]?.id && (
+        {!!address && isConnected && currentChain?.id === chains[0]?.id && !signature && !walletBinded && (
+          <SignMessage />
+        )}
+        {!!address && isConnected && currentChain?.id === chains[0]?.id && (!!signature || walletBinded) && (
           <Loading />
         )}
       </div>
