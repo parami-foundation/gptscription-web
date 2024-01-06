@@ -6,13 +6,13 @@ import { useAccount, useDisconnect, useNetwork, useSwitchNetwork } from "wagmi";
 import queryString from 'query-string';
 import LoginModal from "@/components/login";
 import { notification } from "antd";
-import { GPT_CONFIG } from '@/constants/global';
+import { DEBUG, GPT_CONFIG } from '@/constants/global';
 import Mine from '@/components/mine';
 import Boost from '@/components/boost';
 import { GetAddressByRef } from '@/services/api';
 
 const Bridge: React.FC = () => {
-  const { signature, walletBinded, setWalletModalVisible, setAddress } = useModel('useWallet');
+  const { setWalletModalVisible, setAddress } = useModel('useWallet');
   const { accessToken, setAccessToken, setAccessTokenExpire } = useModel('useAccess');
 
   const [mineModalVisible, setMineModalVisible] = React.useState<boolean>(false);
@@ -90,25 +90,27 @@ const Bridge: React.FC = () => {
       setWalletModalVisible(true);
       switch (search?.action) {
         case "bind":
-          if (!!connectAddress && isConnected && currentChain?.id === chains[0]?.id && (!!signature || walletBinded)) {
+          if (!!connectAddress && isConnected && currentChain?.id === chains[0]?.id) {
             window.location.href = `${GPT_CONFIG.url}`;
           }
           break;
 
         case "mine":
-          if (!!connectAddress && isConnected && currentChain?.id === chains[0]?.id && (!!signature || walletBinded)) {
+          if (!!connectAddress && isConnected && currentChain?.id === chains[0]?.id) {
             setMineModalVisible(true);
             if (!!transactionHash) {
-              window.location.href = `${GPT_CONFIG.url}`;
+              DEBUG && console.log(transactionHash);
+              // window.location.href = `${GPT_CONFIG.url}`;
             }
           }
           break;
 
         case "boost":
-          if (!!connectAddress && isConnected && currentChain?.id === chains[0]?.id && (!!signature || walletBinded)) {
+          if (!!connectAddress && isConnected && currentChain?.id === chains[0]?.id) {
             setBoostModalVisible(true);
             if (!!transactionHash) {
-              window.location.href = `${GPT_CONFIG.url}`;
+              DEBUG && console.log(transactionHash);
+              // window.location.href = `${GPT_CONFIG.url}`;
             }
           }
           break;
@@ -129,7 +131,7 @@ const Bridge: React.FC = () => {
         duration: 0,
       });
     }
-  }, [connectAddress, currentChain, signature, walletBinded, transactionHash]);
+  }, [connectAddress, currentChain, transactionHash]);
 
   return (
     <div className={styles.bridgeContainer}>

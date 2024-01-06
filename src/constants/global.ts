@@ -19,10 +19,10 @@ export const NETWORK_CONFIG = {
 
 export const CONTRACT = {
   Goerli: {
-    GPTMiner: 'FF1C7b5e94572D7ce2910AE1D1923f0d046188ec'
+    GPTMiner: '0xFF1C7b5e94572D7ce2910AE1D1923f0d046188ec'
   },
   Optimism: {
-    GPTMiner: 'Ec9410F65EEfeC104d1C46e35F15837b822B4913'
+    GPTMiner: '0xEc9410F65EEfeC104d1C46e35F15837b822B4913'
   },
 };
 
@@ -45,4 +45,4 @@ export const EXPLORER_CONFIG = {
   Optimism: "https://optimistic.etherscan.io",
 };
 
-export const DEFAULT_REFERRER = "971dF9552669c3890AFE88Cb0a068C98a9A60B7C";
+export const DEFAULT_REFERRER = "0x971dF9552669c3890AFE88Cb0a068C98a9A60B7C";

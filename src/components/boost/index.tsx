@@ -39,13 +39,13 @@ const Select: React.FC<{
     isError: boolean;
     isLoading: boolean;
   } = useContractRead({
-    address: `0x${CONTRACT.Goerli.GPTMiner}`,
+    address: CONTRACT.Goerli.GPTMiner as `0x${string}`,
     abi: require("@/abis/GPTMiner.json"),
     functionName: "boostUnit",
   });
 
   const { data, isLoading, isSuccess, error, write } = useContractWrite({
-    address: `0x${CONTRACT.Goerli.GPTMiner}`,
+    address: CONTRACT.Goerli.GPTMiner as `0x${string}`,
     abi: require("@/abis/GPTMiner.json"),
     functionName: 'boost',
   });
@@ -54,7 +54,7 @@ const Select: React.FC<{
     if (!powerValue) return;
     (async () => {
       const gas = await publicClient?.estimateContractGas({
-        address: `0x${CONTRACT.Goerli.GPTMiner}`,
+        address: CONTRACT.Goerli.GPTMiner as `0x${string}`,
         abi: require("@/abis/GPTMiner.json"),
         functionName: 'boost',
         args: [],
@@ -68,7 +68,6 @@ const Select: React.FC<{
   useEffect(() => {
     ; (async () => {
       if (isSuccess && !!data?.hash && !!accessToken) {
-        setBoostModalVisible(false);
         setPurchaseSuccessVisible(true);
         setTransactionHash(data?.hash);
 
@@ -83,8 +82,16 @@ const Select: React.FC<{
         setPurchaseFailedVisible(true);
         setError(error);
       }
+
+      if (!!switchNetworkError) {
+        notification.error({
+          key: 'switchNetworkError',
+          message: 'Switch Network Error',
+          description: `Please make sure you are on the right network. ${NETWORK_CONFIG?.chains[0]?.name} is required.`
+        });
+      }
     })();
-  }, [accessToken, data, isSuccess, error]);
+  }, [accessToken, data, isSuccess, error, switchNetworkError]);
 
   return (
     <div className={styles.selectModalContainer}>
@@ -250,15 +257,12 @@ const Boost: React.FC<{
   setTransactionHash: React.Dispatch<React.SetStateAction<`0x${string}` | null>>;
   closeable?: boolean;
 }> = ({ visible, setVisible, transactionHash, setTransactionHash, closeable }) => {
-  const { bindedAddress } = useModel("useWallet");
-
   const [powerValue, setPowerValue] = React.useState<number>(0);
   const [purchaseSuccessVisible, setPurchaseSuccessVisible] = React.useState<boolean>(false);
   const [purchaseFailedVisible, setPurchaseFailedVisible] = React.useState<boolean>(false);
   const [error, setError] = React.useState<Error>(new Error(""));
 
-  const { connector, address: connectAddress } = useAccount();
-  const { disconnect } = useDisconnect();
+  const { connector } = useAccount();
 
   useEffect(() => {
     if (!visible) {
@@ -269,20 +273,6 @@ const Boost: React.FC<{
       setTransactionHash(null);
     }
   }, [visible]);
-
-  useEffect(() => {
-    DEBUG && console.log("bindedAddress", bindedAddress);
-    DEBUG && console.log("connectAddress", connectAddress);
-    if (!!bindedAddress && !!connectAddress && bindedAddress !== connectAddress) {
-      notification.error({
-        key: 'walletError',
-        message: 'Wallet Error',
-        description: `Please use the wallet you binded. And please make sure you are on the right network. ${NETWORK_CONFIG?.chains[0]?.name} is required.`
-      });
-      disconnect();
-      setVisible(false);
-    }
-  }, [bindedAddress, connectAddress]);
 
   return (
     <>

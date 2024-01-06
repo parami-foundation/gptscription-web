@@ -6,14 +6,13 @@ import { useModel } from "@umijs/max";
 import Loading from "./loading";
 import ConnectWallet from "./connectWallet";
 import SwitchNetwork from "./switchNetwork";
-import SignMessage from "./signMessage";
 
 const LoginModal: React.FC<{
   visible: boolean;
   setVisible: React.Dispatch<React.SetStateAction<boolean>>;
   closeable?: boolean;
 }> = ({ visible, setVisible, closeable }) => {
-  const { signature, walletBinded, setAddress } = useModel('useWallet');
+  const { setAddress } = useModel('useWallet');
 
   const { chain: currentChain } = useNetwork();
   const { chains } = useSwitchNetwork();
@@ -52,10 +51,7 @@ const LoginModal: React.FC<{
         {!!address && isConnected && currentChain?.id !== chains[0]?.id && (
           <SwitchNetwork />
         )}
-        {!!address && isConnected && currentChain?.id === chains[0]?.id && !signature && !walletBinded && (
-          <SignMessage />
-        )}
-        {!!address && isConnected && currentChain?.id === chains[0]?.id && (!!signature || walletBinded) && (
+        {!!address && isConnected && currentChain?.id === chains[0]?.id && (
           <Loading />
         )}
       </div>
