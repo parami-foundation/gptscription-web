@@ -15,9 +15,8 @@ const Detail: React.FC<{
   setPurchaseFailedVisible: React.Dispatch<React.SetStateAction<boolean>>;
   setError: React.Dispatch<React.SetStateAction<Error>>;
   setTransactionHash: React.Dispatch<React.SetStateAction<`0x${string}` | null>>;
-  setBuyModalVisible: (visible: boolean) => void;
   referrer?: string | null;
-}> = ({ setPurchaseSuccessVisible, setPurchaseFailedVisible, setError, setTransactionHash, setBuyModalVisible, referrer }) => {
+}> = ({ setPurchaseSuccessVisible, setPurchaseFailedVisible, setError, setTransactionHash, referrer }) => {
   const { accessToken } = useModel("useAccess");
   const { publicClient } = useModel("useWagmi");
   const [gas, setGas] = React.useState<bigint>(0n);
@@ -131,8 +130,8 @@ const Detail: React.FC<{
               loading={isLoading}
               size="large"
               disabled={parseFloat(balance?.formatted ?? "0") === 0 || parseFloat(balance?.formatted ?? "0") < parseFloat(formatEther(gas))}
-              onClick={() => {
-                write({
+              onClick={async () => {
+                await write({
                   args: [
                     referrer ? referrer : DEFAULT_REFERRER,
                   ],
@@ -214,7 +213,6 @@ const Mine: React.FC<{
           setPurchaseFailedVisible={setPurchaseFailedVisible}
           setError={setError}
           setTransactionHash={setTransactionHash}
-          setBuyModalVisible={setVisible}
           referrer={referrer}
         />
       </Modal>
