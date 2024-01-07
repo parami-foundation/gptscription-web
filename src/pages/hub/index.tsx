@@ -11,7 +11,7 @@ import Mine from '@/components/mine';
 import Boost from '@/components/boost';
 import { GetAddressByRef } from '@/services/api';
 
-const Bridge: React.FC = () => {
+const Hub: React.FC = () => {
   const { signature, walletBinded, setWalletModalVisible, setAddress } = useModel('useWallet');
   const { accessToken, setAccessToken, setAccessTokenExpire } = useModel('useAccess');
 
@@ -132,7 +132,7 @@ const Bridge: React.FC = () => {
   }, [connectAddress, currentChain, transactionHash]);
 
   return (
-    <div className={styles.bridgeContainer}>
+    <div className={styles.hubContainer}>
       <div className={styles.logoContainer}>
         <div className={styles.logo}>
           <Logo />
@@ -178,4 +178,4 @@ const Bridge: React.FC = () => {
   )
 };
 
-export default Bridge;
+export default Hub;

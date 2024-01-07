@@ -15,9 +15,9 @@ export default defineConfig({
       component: "mytoken",
     },
     {
-      name: "Bridge",
-      path: "/bridge",
-      component: "bridge",
+      name: "Hub",
+      path: "/hub",
+      component: "hub",
     },
   ],
   manifest: {
