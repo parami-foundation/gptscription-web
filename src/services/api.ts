@@ -131,3 +131,21 @@ export async function GetAddressByRef(
     }
   );
 }
+
+export async function GetSign(
+  accessToken: string,
+  options?: { [key: string]: any }
+) {
+  return request<Resp.GetSign>(
+    `${API_CONFIG.scheme}://${API_CONFIG.host}/gptminer/mine/sig`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+      ...(options || {}),
+      getResponse: true,
+    }
+  );
+}

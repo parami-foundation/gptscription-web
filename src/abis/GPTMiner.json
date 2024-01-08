@@ -5,6 +5,33 @@
     "type": "constructor"
   },
   {
+    "inputs": [],
+    "name": "ECDSAInvalidSignature",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "length",
+        "type": "uint256"
+      }
+    ],
+    "name": "ECDSAInvalidSignatureLength",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "s",
+        "type": "bytes32"
+      }
+    ],
+    "name": "ECDSAInvalidSignatureS",
+    "type": "error"
+  },
+  {
     "inputs": [
       {
         "internalType": "address",
@@ -194,7 +221,7 @@
   },
   {
     "inputs": [],
-    "name": "gptPowerAddress",
+    "name": "gptMinerInscriptionAddress",
     "outputs": [
       {
         "internalType": "address",
@@ -237,6 +264,11 @@
         "internalType": "address",
         "name": "referrer",
         "type": "address"
+      },
+      {
+        "internalType": "bytes",
+        "name": "signature",
+        "type": "bytes"
       }
     ],
     "name": "mine",
@@ -337,6 +369,19 @@
   },
   {
     "inputs": [],
+    "name": "signer",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
     "name": "startMining",
     "outputs": [],
     "stateMutability": "nonpayable",
@@ -377,6 +422,19 @@
       }
     ],
     "name": "transferOwnership",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_signer",
+        "type": "address"
+      }
+    ],
+    "name": "updateSigner",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

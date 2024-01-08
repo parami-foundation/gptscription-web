@@ -16,7 +16,7 @@ export default defineConfig({
     },
     {
       name: "Hub",
-      path: "/bridge",
+      path: "/hub",
       component: "hub",
     },
   ],

@@ -9,8 +9,8 @@ export default () => {
   const [refer, setRefer] = useState<string>();
 
   const cleanAccessToken = async () => {
-    localStorage.removeItem("gptminer:accessToken");
-    localStorage.removeItem("gptminer:accessToken:expire");
+    localStorage.removeItem("gptminer:accesstoken");
+    localStorage.removeItem("gptminer:accesstoken:expire");
     setAccessToken(null);
     setAccessTokenExpire(null);
   };
@@ -27,9 +27,9 @@ export default () => {
   useEffect(() => {
     (async () => {
       const accessToken =
-        localStorage.getItem("gptminer:accessToken");
+        localStorage.getItem("gptminer:accesstoken");
       const accessTokenExpire =
-        localStorage.getItem("gptminer:accessToken:expire");
+        localStorage.getItem("gptminer:accesstoken:expire");
 
       const now = new Date().getTime();
 

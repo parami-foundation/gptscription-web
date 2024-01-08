@@ -19,6 +19,8 @@ const Detail: React.FC<{
 }> = ({ setPurchaseSuccessVisible, setPurchaseFailedVisible, setError, setTransactionHash, referrer }) => {
   const { accessToken } = useModel("useAccess");
   const { publicClient } = useModel("useWagmi");
+  const { txSignature } = useModel("useWallet");
+
   const [gas, setGas] = React.useState<bigint>(0n);
 
   const { address } = useAccount();
@@ -43,6 +45,7 @@ const Detail: React.FC<{
         functionName: 'mine',
         args: [
           referrer ? referrer : DEFAULT_REFERRER,
+          txSignature,
         ],
         account: address as `0x${string}`,
       });
@@ -134,6 +137,7 @@ const Detail: React.FC<{
                 await write({
                   args: [
                     referrer ? referrer : DEFAULT_REFERRER,
+                    txSignature,
                   ],
                 })
               }}

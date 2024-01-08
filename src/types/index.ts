@@ -88,4 +88,9 @@ export declare namespace Resp {
     status?: string;
     data?: string;
   }
+
+  interface GetSign extends Body {
+    status?: string;
+    data?: string;
+  }
 }

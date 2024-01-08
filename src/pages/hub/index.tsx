@@ -6,7 +6,7 @@ import { useAccount, useDisconnect, useNetwork, useSwitchNetwork } from "wagmi";
 import queryString from 'query-string';
 import LoginModal from "@/components/login";
 import { notification } from "antd";
-import { DEBUG, GPT_CONFIG } from '@/constants/global';
+import { GPT_CONFIG } from '@/constants/global';
 import Mine from '@/components/mine';
 import Boost from '@/components/boost';
 import { GetAddressByRef } from '@/services/api';
@@ -61,11 +61,11 @@ const Hub: React.FC = () => {
 
       if (!!search?.access_token_expire && parseInt(search?.access_token_expire as string) * 1000 > now) {
         setAccessTokenExpire(parseInt(search?.access_token_expire as string) * 1000);
-        localStorage.setItem('gptminer:accessToken:expire', (parseInt(search?.access_token_expire as string) * 1000).toString());
+        localStorage.setItem('gptminer:accesstoken:expire', (parseInt(search?.access_token_expire as string) * 1000).toString());
 
         if (!!search?.access_token) {
           setAccessToken(search?.access_token as string);
-          localStorage.setItem('gptminer:accessToken', search?.access_token as string);
+          localStorage.setItem('gptminer:accesstoken', search?.access_token as string);
         }
 
         if (!!search?.referrer) {

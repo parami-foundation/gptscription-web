@@ -1,5 +1,5 @@
 import { NETWORK_CONFIG } from "@/constants/global";
-import { BindWallet, BindWalletNonce, GetWallet } from "@/services/api";
+import { BindWallet, BindWalletNonce, GetSign, GetWallet } from "@/services/api";
 import { useEffect, useState } from "react";
 import { message as antdMessage } from "antd";
 import { useModel } from "@umijs/max";
@@ -14,6 +14,7 @@ export default () => {
   const [walletModalVisible, setWalletModalVisible] = useState<boolean>(false);
   const [walletBinded, setWalletBinded] = useState<boolean>(false);
   const [bindedAddress, setBindedAddress] = useState<`0x${string}` | null>(null);
+  const [txSignature, setTxSignature] = useState<string | null>(null);
 
   const getBindWalletNonce = async ({
     address,
@@ -123,6 +124,16 @@ export default () => {
     })();
   }, [accessToken]);
 
+  useEffect(() => {
+    ; (async () => {
+      if (!accessToken || !address || !walletBinded) return;
+      const { response, data } = await GetSign(accessToken);
+      if (response?.status === 200 && !!data?.data) {
+        setTxSignature(data?.data);
+      }
+    })();
+  }, [walletBinded]);
+
   return {
     message,
     nonce,
@@ -137,5 +148,6 @@ export default () => {
     bindedAddress,
     setWalletBinded,
     bindWallet,
+    txSignature,
   };
 };

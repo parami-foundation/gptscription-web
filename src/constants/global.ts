@@ -19,7 +19,8 @@ export const NETWORK_CONFIG = {
 
 export const CONTRACT = {
   Goerli: {
-    GPTMiner: '0xFF1C7b5e94572D7ce2910AE1D1923f0d046188ec'
+    GPTMiner: '0x93c61fdD7a2D6D4e7e429fddcb1089223A595Ad9',
+    GPTMinerInscription: '0xd573152b7852fc324a0FE245D7EE616989900f9D',
   },
   Optimism: {
     GPTMiner: '0xEc9410F65EEfeC104d1C46e35F15837b822B4913'
