@@ -257,8 +257,9 @@ const Boost: React.FC<{
   transactionHash: `0x${string}` | null;
   setTransactionHash: React.Dispatch<React.SetStateAction<`0x${string}` | null>>;
   closeable?: boolean;
-}> = ({ visible, setVisible, transactionHash, setTransactionHash, closeable }) => {
-  const [powerValue, setPowerValue] = React.useState<number>(0);
+  value?: number;
+}> = ({ visible, setVisible, transactionHash, setTransactionHash, closeable, value }) => {
+  const [powerValue, setPowerValue] = React.useState<number>(value ?? 0);
   const [purchaseSuccessVisible, setPurchaseSuccessVisible] = React.useState<boolean>(false);
   const [purchaseFailedVisible, setPurchaseFailedVisible] = React.useState<boolean>(false);
   const [error, setError] = React.useState<Error>(new Error(""));

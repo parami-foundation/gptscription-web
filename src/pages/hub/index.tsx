@@ -21,6 +21,8 @@ const Hub: React.FC = () => {
   const [transactionHash, setTransactionHash] = React.useState<`0x${string}` | null>(null);
   const [referrer, setReferrer] = React.useState<string | null>(null);
 
+  const [boostValue, setBoostValue] = React.useState<number>(0);
+
   const { chain: currentChain } = useNetwork();
   const { chains } = useSwitchNetwork();
 
@@ -108,6 +110,7 @@ const Hub: React.FC = () => {
           break;
 
         case "boost":
+          !!search?.value && setBoostValue(parseInt(search?.value as string));
           if (!!connectAddress && isConnected && currentChain?.id === chains[0]?.id && (!!signature || walletBinded)) {
             setBoostModalVisible(true);
             if (!!transactionHash) {
@@ -177,6 +180,7 @@ const Hub: React.FC = () => {
             transactionHash={transactionHash}
             setTransactionHash={setTransactionHash}
             closeable={false}
+            value={boostValue}
           />
         </>
       )}
