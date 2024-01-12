@@ -3,7 +3,7 @@ import styles from "./style.less";
 import { useModel } from "@umijs/max";
 import { useAccount, useBalance, useContractRead, useContractWrite, useDisconnect, useNetwork, useSwitchNetwork } from "wagmi";
 import { CONTRACT, DEBUG, DEFAULT_REFERRER, NETWORK_CONFIG } from "@/constants/global";
-import { Button, ConfigProvider, Modal, notification, theme } from "antd";
+import { Alert, Button, ConfigProvider, Modal, notification, theme } from "antd";
 import { CreateTransaction } from "@/services/api";
 import { THEME_CONFIG } from "@/constants/theme";
 import PurchaseSuccess from "../purchase/success";
@@ -188,7 +188,17 @@ const Mine: React.FC<{
       notification.error({
         key: 'walletError',
         message: 'Wallet Error',
-        description: `Please use the wallet you binded. And please make sure you are on the right network. ${NETWORK_CONFIG?.chains[0]?.name} is required.`
+        description: (
+          <>
+            <p>
+              Please use the wallet you binded.
+              <Alert
+                message={`Binded Address: ${bindedAddress}`}
+                type="warning"
+                showIcon />
+            </p>
+          </>
+        )
       });
       disconnect();
       setVisible(false);

@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import styles from '../style.less';
 import { FaAngleRight } from "react-icons/fa";
 import { useModel } from "@umijs/max";
-import { useAccount, useConnect } from "wagmi";
+import { useAccount, useBalance, useConnect } from "wagmi";
 import { Button, ConfigProvider, notification, theme } from "antd";
 import { useWeb3Modal } from '@web3modal/wagmi/react'
 import { ReactComponent as WalletConnectIcon } from "@/assets/brand/walletconnect.svg";
@@ -10,7 +10,7 @@ import { THEME_CONFIG } from "@/constants/theme";
 
 const ConnectWallet: React.FC = () => {
   const { wagmiInitialized } = useModel("useWagmi");
-  const { setAddress } = useModel("useWallet");
+  const { address, setAddress } = useModel("useWallet");
 
   const { connector, isReconnecting } = useAccount();
   const { connect, connectors, isLoading, error, pendingConnector } =
@@ -19,6 +19,9 @@ const ConnectWallet: React.FC = () => {
         setAddress(account?.account);
       },
     });
+  const { data: balance } = useBalance({
+    address: address as `0x${string}`,
+  });
   const { open } = useWeb3Modal();
 
   useEffect(() => {
@@ -30,6 +33,18 @@ const ConnectWallet: React.FC = () => {
       });
     }
   }, [error]);
+
+  useEffect(() => {
+    ; (async () => {
+      if (!balance || balance?.formatted == '0') {
+        notification.warning({
+          key: 'connectWallet',
+          message: 'Insufficient balance',
+          description: 'Please make sure you have enough GPT in your wallet.',
+        });
+      }
+    })();
+  }, [balance]);
 
   return (
     <>
