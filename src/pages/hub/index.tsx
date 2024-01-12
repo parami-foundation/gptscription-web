@@ -129,7 +129,7 @@ const Hub: React.FC = () => {
         duration: 0,
       });
     }
-  }, [connectAddress, currentChain, transactionHash]);
+  }, [connectAddress, currentChain, transactionHash, signature, walletBinded, isConnected]);
 
   return (
     <div className={styles.hubContainer}>

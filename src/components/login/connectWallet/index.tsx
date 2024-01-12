@@ -12,7 +12,7 @@ const ConnectWallet: React.FC = () => {
   const { wagmiInitialized } = useModel("useWagmi");
   const { address, setAddress } = useModel("useWallet");
 
-  const { connector, isReconnecting } = useAccount();
+  const { connector, isConnected, isReconnecting } = useAccount();
   const { connect, connectors, isLoading, error, pendingConnector } =
     useConnect({
       onSuccess: (account) => {
@@ -36,7 +36,7 @@ const ConnectWallet: React.FC = () => {
 
   useEffect(() => {
     ; (async () => {
-      if (!!address && (!balance || balance?.formatted == '0')) {
+      if (isConnected && !!address && (!balance || balance?.formatted == '0')) {
         notification.warning({
           key: 'connectWallet',
           message: 'Insufficient balance',
@@ -44,7 +44,7 @@ const ConnectWallet: React.FC = () => {
         });
       }
     })();
-  }, [balance, address]);
+  }, [balance, address, isConnected]);
 
   return (
     <>

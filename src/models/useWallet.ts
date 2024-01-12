@@ -8,7 +8,7 @@ export default () => {
   const { accessToken } = useModel("useAccess");
 
   const [address, setAddress] = useState<`0x${string}` | null>(null);
-  const [signature, setSignature] = useState<string>();
+  const [signature, setSignature] = useState<string | null>(null);
   const [nonce, setNonce] = useState<string>();
   const [message, setMessage] = useState<string>();
   const [walletModalVisible, setWalletModalVisible] = useState<boolean>(false);
