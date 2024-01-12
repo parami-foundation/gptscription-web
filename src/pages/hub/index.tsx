@@ -101,6 +101,9 @@ const Hub: React.FC = () => {
             if (!!transactionHash) {
               window.location.href = `${GPT_CONFIG.url}`;
             }
+          } else {
+            setWalletModalVisible(true);
+            setMineModalVisible(false);
           }
           break;
 
@@ -110,6 +113,9 @@ const Hub: React.FC = () => {
             if (!!transactionHash) {
               window.location.href = `${GPT_CONFIG.url}`;
             }
+          } else {
+            setWalletModalVisible(true);
+            setBoostModalVisible(false);
           }
           break;
 

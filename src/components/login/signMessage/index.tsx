@@ -4,7 +4,7 @@ import { Button, ConfigProvider, notification, theme } from "antd";
 import { ReactComponent as StampIcon } from '@/assets/icon/stamp.svg';
 import { FaAngleRight } from "react-icons/fa";
 import { THEME_CONFIG } from "@/constants/theme";
-import { useAccount, useSignMessage } from 'wagmi';
+import { useAccount, useDisconnect, useSignMessage } from 'wagmi';
 import { recoverMessageAddress } from 'viem';
 import { useModel } from "@umijs/max";
 
@@ -15,6 +15,7 @@ const SignMessage: React.FC = () => {
   const [recoveredAddress, setRecoveredAddress] = React.useState<string>();
 
   const { address: connectAddress } = useAccount();
+  const { disconnect } = useDisconnect();
   const {
     data,
     variables,
@@ -63,10 +64,13 @@ const SignMessage: React.FC = () => {
   useEffect(() => {
     ; (async () => {
       if (!accessToken || !connectAddress) return;
-      await getBindWalletNonce({
+      const { error } = await getBindWalletNonce({
         address: connectAddress,
         accessToken,
       });
+      if (!!error) {
+        disconnect();
+      }
     })()
   }, [connectAddress, accessToken]);
 
@@ -113,7 +117,7 @@ const SignMessage: React.FC = () => {
             block
             type="primary"
             size="large"
-            loading={isLoading || !message}
+            loading={isLoading}
             disabled={isLoading || !message}
             className={styles.loginModalContentItem}
             onClick={async () => {
