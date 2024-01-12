@@ -4,16 +4,15 @@ import { FaAngleRight } from "react-icons/fa";
 import { useModel } from "@umijs/max";
 import { useAccount, useBalance, useConnect } from "wagmi";
 import { Button, ConfigProvider, notification, theme } from "antd";
-import { useWeb3Modal } from '@web3modal/wagmi/react'
-import { ReactComponent as WalletConnectIcon } from "@/assets/brand/walletconnect.svg";
 import { THEME_CONFIG } from "@/constants/theme";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { IoWalletOutline } from "react-icons/io5";
 
 const ConnectWallet: React.FC = () => {
-  const { wagmiInitialized } = useModel("useWagmi");
   const { address, setAddress } = useModel("useWallet");
 
-  const { connector, isConnected, isReconnecting } = useAccount();
-  const { connect, connectors, isLoading, error, pendingConnector } =
+  const { isConnected } = useAccount();
+  const { isLoading, error, pendingConnector } =
     useConnect({
       onSuccess: (account) => {
         setAddress(account?.account);
@@ -22,7 +21,6 @@ const ConnectWallet: React.FC = () => {
   const { data: balance } = useBalance({
     address: address as `0x${string}`,
   });
-  const { open } = useWeb3Modal();
 
   useEffect(() => {
     if (error) {
@@ -61,58 +59,59 @@ const ConnectWallet: React.FC = () => {
         </div>
       </div>
       <div className={styles.loginModalContent}>
-        {connectors.map((x) => {
-          if (wagmiInitialized && !x.ready || x?.id !== 'walletConnect') {
-            return null;
-          };
-          return (
-            <ConfigProvider
-              theme={{
-                algorithm: theme.darkAlgorithm,
-                token: {
-                  wireframe: false,
-                  colorPrimary: THEME_CONFIG.colorSecondary,
-                  borderRadius: THEME_CONFIG.borderRadius,
-                  boxShadow: THEME_CONFIG.boxShadow,
-                },
-              }}
-              key={x.name}
-            >
-              <Button
-                block
-                type="primary"
-                size="large"
-                className={styles.loginModalContentItem}
-                disabled={!x.ready || isReconnecting || connector?.id === x.id}
-                onClick={() => {
-                  if (x.id === 'walletConnect') {
-                    open();
-                  } else {
-                    connect({ connector: x })
-                  }
-                }}
-                key={x.name}
-              >
-                <div className={styles.loginModalContentItemLeft}>
-                  {x?.id === 'walletConnect' && (
-                    <WalletConnectIcon
+        <ConfigProvider
+          theme={{
+            algorithm: theme.darkAlgorithm,
+            token: {
+              wireframe: false,
+              colorPrimary: THEME_CONFIG.colorSecondary,
+              borderRadius: THEME_CONFIG.borderRadius,
+              boxShadow: THEME_CONFIG.boxShadow,
+            },
+          }}
+        >
+          <ConnectButton.Custom>
+            {({
+              account,
+              chain,
+              openConnectModal,
+              authenticationStatus,
+              mounted,
+            }) => {
+              const ready = mounted && authenticationStatus !== 'loading';
+              const connected =
+                ready &&
+                account &&
+                chain &&
+                (!authenticationStatus ||
+                  authenticationStatus === 'authenticated');
+
+              return (
+                <Button
+                  block
+                  type="primary"
+                  size="large"
+                  className={styles.loginModalContentItem}
+                  onClick={() => openConnectModal()}
+                >
+                  <div className={styles.loginModalContentItemLeft}>
+                    <IoWalletOutline
                       className={styles.loginModalContentItemIcon}
                     />
-                  )}
-                  <div className={styles.loginModalContentItemText}>
-                    {x.name}
-                    {isLoading && x.id === pendingConnector?.id && '…'}
+                    <div className={styles.loginModalContentItemText}>
+                      Connect Wallet
+                    </div>
                   </div>
-                </div>
-                <div className={styles.loginModalContentItemRight}>
-                  <FaAngleRight
-                    className={styles.loginModalContentItemRightIcon}
-                  />
-                </div>
-              </Button>
-            </ConfigProvider>
-          )
-        })}
+                  <div className={styles.loginModalContentItemRight}>
+                    <FaAngleRight
+                      className={styles.loginModalContentItemRightIcon}
+                    />
+                  </div>
+                </Button>
+              );
+            }}
+          </ConnectButton.Custom>
+        </ConfigProvider>
       </div>
     </>
   );

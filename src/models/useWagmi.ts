@@ -1,35 +1,29 @@
+import '@rainbow-me/rainbowkit/styles.css';
 import {
-  Config,
-  PublicClient,
-  WebSocketPublicClient,
-  configureChains,
-  createConfig,
-} from "wagmi";
-
+  connectorsForWallets,
+} from '@rainbow-me/rainbowkit';
 import {
   ALCHEMY_CONFIG,
   INFURA_CONFIG,
   NETWORK_CONFIG,
 } from "@/constants/global";
-import { useEffect, useState } from "react";
 import { WALLETCONNECT_CONFIG } from "@/constants/walletconnect";
+import { useEffect, useState } from "react";
+import { Config, configureChains, createConfig, PublicClient, WebSocketPublicClient } from 'wagmi';
 import { FallbackTransport, createPublicClient, http } from "viem";
-import { createWeb3Modal } from "@web3modal/wagmi/react";
-import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
-import { walletConnectProvider } from "@web3modal/wagmi";
-import { InjectedConnector } from "wagmi/connectors/injected";
-import { CoinbaseWalletConnector } from "wagmi/connectors/coinbaseWallet";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { infuraProvider } from "wagmi/providers/infura";
+import { publicProvider } from 'wagmi/providers/public';
+import { injectedWallet, metaMaskWallet, okxWallet, rainbowWallet, tokenPocketWallet, walletConnectWallet } from '@rainbow-me/rainbowkit/wallets';
 
 export default () => {
   const [wagmiConfig, setWagmiConfig] =
     useState<
       Config<
-        PublicClient<FallbackTransport>,
-        WebSocketPublicClient<FallbackTransport>
+        PublicClient<FallbackTransport>
       > | null
     >(null);
+  const [wagmiChains, setWagmiChains] = useState<any>(null);
   const [wagmiInitialized, setWagmiInitialized] = useState<boolean>(false);
 
   useEffect(() => setWagmiInitialized(true), []);
@@ -37,62 +31,56 @@ export default () => {
   useEffect(() => {
     console.log("Initializing Wagmi");
 
-    const { publicClient, webSocketPublicClient } = configureChains(
+    const { chains, publicClient } = configureChains(
       [...NETWORK_CONFIG.chains],
       [
-        walletConnectProvider({
-          projectId: WALLETCONNECT_CONFIG.projectId,
-        }),
         alchemyProvider({
           apiKey: ALCHEMY_CONFIG.Goerli,
         }),
         infuraProvider({
           apiKey: INFURA_CONFIG.apiKey,
         }),
+        publicProvider()
       ]
-    )
+    );
+    setWagmiChains(chains);
+
+    const connectors = connectorsForWallets([
+      {
+        groupName: 'Recommended',
+        wallets: [
+          injectedWallet({ chains }),
+          metaMaskWallet({
+            projectId: WALLETCONNECT_CONFIG.projectId,
+            chains,
+          }),
+          okxWallet({
+            projectId: WALLETCONNECT_CONFIG.projectId,
+            chains,
+          }),
+          rainbowWallet({
+            projectId: WALLETCONNECT_CONFIG.projectId,
+            chains,
+          }),
+          tokenPocketWallet({
+            projectId: WALLETCONNECT_CONFIG.projectId,
+            chains,
+          }),
+          walletConnectWallet({
+            projectId: WALLETCONNECT_CONFIG.projectId,
+            chains,
+          }),
+        ],
+      },
+    ]);
 
     const config = createConfig({
       autoConnect: true,
-      connectors: [
-        new WalletConnectConnector({
-          chains: NETWORK_CONFIG.chains,
-          options: {
-            projectId: WALLETCONNECT_CONFIG.projectId,
-            showQrModal: false,
-            metadata: WALLETCONNECT_CONFIG.metadata,
-          }
-        }),
-        new InjectedConnector({
-          chains: NETWORK_CONFIG.chains,
-          options: {
-            shimDisconnect: true,
-          }
-        }),
-        new CoinbaseWalletConnector({
-          chains: NETWORK_CONFIG.chains,
-          options: {
-            appName: WALLETCONNECT_CONFIG.metadata.name,
-          }
-        })
-      ],
+      connectors,
       publicClient,
-      webSocketPublicClient,
     });
 
     setWagmiConfig(config);
-
-    createWeb3Modal({
-      wagmiConfig: config,
-      projectId: WALLETCONNECT_CONFIG.projectId,
-      chains: NETWORK_CONFIG.chains,
-      defaultChain: NETWORK_CONFIG.chains[0],
-      metadata: WALLETCONNECT_CONFIG.metadata,
-      themeMode: 'dark',
-      themeVariables: {
-        '--w3m-z-index': 9999999,
-      },
-    })
   }, []);
 
   const publicClient = createPublicClient({
@@ -101,8 +89,9 @@ export default () => {
   });
 
   return {
+    wagmiChains,
     wagmiConfig,
     publicClient,
     wagmiInitialized,
   };
-};
+}

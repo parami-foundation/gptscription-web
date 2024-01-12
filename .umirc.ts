@@ -77,6 +77,9 @@ export default defineConfig({
       content: '0',
     },
     {
+      referrer: 'unsafe-url',
+    },
+    {
       name: 'title',
       content: 'GPTMiner - AI-Powered ME for my Web3 Social Network',
     },

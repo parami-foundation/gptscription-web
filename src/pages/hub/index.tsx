@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import styles from './style.less';
-import { useModel } from '@umijs/max';
+import { useModel, history } from '@umijs/max';
 import { ReactComponent as Logo } from '@/assets/logo.svg';
 import { useAccount, useDisconnect, useNetwork, useSwitchNetwork } from "wagmi";
 import queryString from 'query-string';
