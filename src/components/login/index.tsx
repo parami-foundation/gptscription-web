@@ -7,6 +7,7 @@ import Loading from "./loading";
 import ConnectWallet from "./connectWallet";
 import SwitchNetwork from "./switchNetwork";
 import SignMessage from "./signMessage";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 const LoginModal: React.FC<{
   visible: boolean;
@@ -43,7 +44,12 @@ const LoginModal: React.FC<{
       <div className={styles.loginModalContainer}>
         {connector?.id === 'walletConnect' && (
           <div className={styles.walletConnectAccount}>
-            <w3m-account-button />
+            <ConnectButton
+              accountStatus={{
+                smallScreen: 'avatar',
+                largeScreen: 'full',
+              }}
+            />
           </div>
         )}
         {(!address || !isConnected) && (

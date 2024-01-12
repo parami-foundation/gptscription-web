@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import styles from './style.less';
 import { Button, ConfigProvider, InputNumber, Modal, notification, theme } from 'antd';
-import { useAccount, useBalance, useContractRead, useContractWrite, useDisconnect, useNetwork, useSwitchNetwork } from 'wagmi';
-import { CONTRACT, DEBUG, NETWORK_CONFIG } from '@/constants/global';
+import { useAccount, useBalance, useContractRead, useContractWrite, useNetwork, useSwitchNetwork } from 'wagmi';
+import { CONTRACT, NETWORK_CONFIG } from '@/constants/global';
 import classNames from 'classnames';
 import { formatEther } from 'viem';
 import { AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai';
@@ -11,6 +11,7 @@ import PurchaseSuccess from '../purchase/success';
 import PurchaseFailed from '../purchase/failed';
 import { useModel } from '@umijs/max';
 import { CreateTransaction } from '@/services/api';
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 const Select: React.FC<{
   powerValue: number;
@@ -288,7 +289,12 @@ const Boost: React.FC<{
       >
         {connector?.id === 'walletConnect' && (
           <div className={styles.walletConnectAccount}>
-            <w3m-account-button />
+            <ConnectButton
+              accountStatus={{
+                smallScreen: 'avatar',
+                largeScreen: 'full',
+              }}
+            />
           </div>
         )}
         <Select

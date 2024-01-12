@@ -9,6 +9,7 @@ import { THEME_CONFIG } from "@/constants/theme";
 import PurchaseSuccess from "../purchase/success";
 import PurchaseFailed from "../purchase/failed";
 import { formatEther } from "viem";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 const Detail: React.FC<{
   setPurchaseSuccessVisible: React.Dispatch<React.SetStateAction<boolean>>;
@@ -132,7 +133,7 @@ const Detail: React.FC<{
               className={styles.detailModalFooterBtn}
               loading={isLoading}
               size="large"
-              disabled={parseFloat(balance?.formatted ?? "0") === 0 || parseFloat(balance?.formatted ?? "0") < parseFloat(formatEther(gas))}
+              disabled={parseFloat(balance?.formatted ?? "0") === 0 || parseFloat(balance?.formatted ?? "0") < parseFloat(formatEther(gas)) || !gas || !txSignature}
               onClick={async () => {
                 await write({
                   args: [
@@ -144,6 +145,8 @@ const Detail: React.FC<{
             >
               {(parseFloat(balance?.formatted ?? "0") === 0 || parseFloat(balance?.formatted ?? "0") < parseFloat(formatEther(gas))) ? (
                 <span>Insufficient Balance</span>
+              ) : !gas && !!address ? (
+                <span>Already Mined</span>
               ) : (
                 <span>Start Mining Now</span>
               )}
@@ -219,7 +222,12 @@ const Mine: React.FC<{
       >
         {connector?.id === 'walletConnect' && (
           <div className={styles.walletConnectAccount}>
-            <w3m-account-button />
+            <ConnectButton
+              accountStatus={{
+                smallScreen: 'avatar',
+                largeScreen: 'full',
+              }}
+            />
           </div>
         )}
         <Detail
