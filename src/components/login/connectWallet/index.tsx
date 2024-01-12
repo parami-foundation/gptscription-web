@@ -36,7 +36,7 @@ const ConnectWallet: React.FC = () => {
 
   useEffect(() => {
     ; (async () => {
-      if (!balance || balance?.formatted == '0') {
+      if (!!address && (!balance || balance?.formatted == '0')) {
         notification.warning({
           key: 'connectWallet',
           message: 'Insufficient balance',
@@ -44,7 +44,7 @@ const ConnectWallet: React.FC = () => {
         });
       }
     })();
-  }, [balance]);
+  }, [balance, address]);
 
   return (
     <>
