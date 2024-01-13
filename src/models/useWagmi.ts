@@ -38,6 +38,7 @@ export default () => {
   useEffect(() => setWagmiInitialized(true), []);
 
   useEffect(() => {
+    indexedDB?.deleteDatabase('WALLET_CONNECT_V2_INDEXED_DB');
     console.log("Initializing Wagmi");
 
     const { chains, publicClient } = configureChains(

@@ -5,9 +5,19 @@ import { THEME_CONFIG } from "@/constants/theme";
 import { WagmiConfig } from "wagmi";
 import { RainbowKitProvider, darkTheme } from '@rainbow-me/rainbowkit';
 import Header from "@/components/header";
+import { DEBUG } from "@/constants/global";
+import eruda from "eruda";
 
 const Layout: React.FC = () => {
   const { wagmiConfig, wagmiChains } = useModel('useWagmi');
+
+  if (DEBUG) {
+    let el = document.createElement('div');
+    document.body.appendChild(el);
+    eruda.init({
+      container: el,
+    });
+  }
 
   return (
     <>
