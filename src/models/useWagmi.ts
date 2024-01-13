@@ -1,12 +1,22 @@
 import '@rainbow-me/rainbowkit/styles.css';
 import {
-  connectorsForWallets,
+  getDefaultWallets,
 } from '@rainbow-me/rainbowkit';
 import {
   ALCHEMY_CONFIG,
   INFURA_CONFIG,
   NETWORK_CONFIG,
+  PROJECT_CONFIG,
 } from "@/constants/global";
+import {
+  mainnet,
+  polygon,
+  optimism,
+  arbitrum,
+  base,
+  zora,
+  goerli,
+} from 'wagmi/chains';
 import { WALLETCONNECT_CONFIG } from "@/constants/walletconnect";
 import { useEffect, useState } from "react";
 import { Config, configureChains, createConfig, PublicClient, WebSocketPublicClient } from 'wagmi';
@@ -14,7 +24,6 @@ import { FallbackTransport, createPublicClient, http } from "viem";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { infuraProvider } from "wagmi/providers/infura";
 import { publicProvider } from 'wagmi/providers/public';
-import { injectedWallet, metaMaskWallet, okxWallet, rainbowWallet, tokenPocketWallet, walletConnectWallet } from '@rainbow-me/rainbowkit/wallets';
 
 export default () => {
   const [wagmiConfig, setWagmiConfig] =
@@ -23,7 +32,7 @@ export default () => {
         PublicClient<FallbackTransport>
       > | null
     >(null);
-  const [wagmiChains, setWagmiChains] = useState<any>(null);
+  const [wagmiChains, setWagmiChains] = useState<any | null>(null);
   const [wagmiInitialized, setWagmiInitialized] = useState<boolean>(false);
 
   useEffect(() => setWagmiInitialized(true), []);
@@ -32,7 +41,7 @@ export default () => {
     console.log("Initializing Wagmi");
 
     const { chains, publicClient } = configureChains(
-      [...NETWORK_CONFIG.chains],
+      [mainnet, polygon, optimism, arbitrum, base, zora, goerli],
       [
         alchemyProvider({
           apiKey: ALCHEMY_CONFIG.Goerli,
@@ -40,39 +49,16 @@ export default () => {
         infuraProvider({
           apiKey: INFURA_CONFIG.apiKey,
         }),
-        publicProvider()
+        publicProvider(),
       ]
     );
     setWagmiChains(chains);
 
-    const connectors = connectorsForWallets([
-      {
-        groupName: 'Recommended',
-        wallets: [
-          injectedWallet({ chains }),
-          metaMaskWallet({
-            projectId: WALLETCONNECT_CONFIG.projectId,
-            chains,
-          }),
-          okxWallet({
-            projectId: WALLETCONNECT_CONFIG.projectId,
-            chains,
-          }),
-          rainbowWallet({
-            projectId: WALLETCONNECT_CONFIG.projectId,
-            chains,
-          }),
-          tokenPocketWallet({
-            projectId: WALLETCONNECT_CONFIG.projectId,
-            chains,
-          }),
-          walletConnectWallet({
-            projectId: WALLETCONNECT_CONFIG.projectId,
-            chains,
-          }),
-        ],
-      },
-    ]);
+    const { connectors } = getDefaultWallets({
+      appName: PROJECT_CONFIG.name,
+      projectId: WALLETCONNECT_CONFIG.projectId,
+      chains
+    });
 
     const config = createConfig({
       autoConnect: true,
