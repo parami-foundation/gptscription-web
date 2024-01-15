@@ -38,7 +38,8 @@ const Detail: React.FC<{
   });
 
   useEffect(() => {
-    (async () => {
+    ; (async () => {
+      if (!publicClient) return;
       const gas = await publicClient?.estimateContractGas({
         address: CONTRACT.Goerli.GPTMiner as `0x${string}`,
         abi: require("@/abis/GPTMiner.json"),

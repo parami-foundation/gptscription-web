@@ -9,13 +9,13 @@ import {
   PROJECT_CONFIG,
 } from "@/constants/global";
 import {
+  goerli,
   mainnet,
   polygon,
   optimism,
   arbitrum,
   base,
   zora,
-  goerli,
 } from 'wagmi/chains';
 import { WALLETCONNECT_CONFIG } from "@/constants/walletconnect";
 import { useEffect, useState } from "react";
@@ -42,7 +42,7 @@ export default () => {
     console.log("Initializing Wagmi");
 
     const { chains, publicClient } = configureChains(
-      [mainnet, polygon, optimism, arbitrum, base, zora, goerli],
+      [goerli, mainnet, polygon, optimism, arbitrum, base, zora],
       [
         alchemyProvider({
           apiKey: ALCHEMY_CONFIG.Goerli,
