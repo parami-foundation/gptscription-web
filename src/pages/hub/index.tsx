@@ -20,6 +20,7 @@ const Hub: React.FC = () => {
 
   const [transactionHash, setTransactionHash] = React.useState<`0x${string}` | null>(null);
   const [referrer, setReferrer] = React.useState<string | null>(null);
+  const [redirectURL, setRedirectURL] = React.useState<string | null>(null);
 
   const [boostValue, setBoostValue] = React.useState<number>(0);
 
@@ -76,6 +77,10 @@ const Hub: React.FC = () => {
             setReferrer(data?.data);
           }
         }
+
+        if (!!search?.redirect_url) {
+          setRedirectURL(search?.redirect_url as string);
+        }
       } else {
         notification.error({
           key: 'accessTokenError',
@@ -93,7 +98,7 @@ const Hub: React.FC = () => {
       switch (search?.action) {
         case "bind":
           if (!!connectAddress && isConnected && currentChain?.id === chains[0]?.id && (!!signature || walletBinded)) {
-            window.location.href = `${GPT_CONFIG.url}`;
+            window.location.href = redirectURL || `${GPT_CONFIG.url}`;
           }
           break;
 
@@ -101,7 +106,7 @@ const Hub: React.FC = () => {
           if (!!connectAddress && isConnected && currentChain?.id === chains[0]?.id && (!!signature || walletBinded)) {
             setMineModalVisible(true);
             if (!!transactionHash) {
-              window.location.href = `${GPT_CONFIG.url}`;
+              window.location.href = redirectURL || `${GPT_CONFIG.url}`;
             }
           } else {
             setWalletModalVisible(true);
@@ -114,7 +119,7 @@ const Hub: React.FC = () => {
           if (!!connectAddress && isConnected && currentChain?.id === chains[0]?.id && (!!signature || walletBinded)) {
             setBoostModalVisible(true);
             if (!!transactionHash) {
-              window.location.href = `${GPT_CONFIG.url}`;
+              window.location.href = redirectURL || `${GPT_CONFIG.url}`;
             }
           } else {
             setWalletModalVisible(true);

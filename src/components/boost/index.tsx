@@ -11,7 +11,6 @@ import PurchaseSuccess from '../purchase/success';
 import PurchaseFailed from '../purchase/failed';
 import { useModel } from '@umijs/max';
 import { CreateTransaction } from '@/services/api';
-import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 const Select: React.FC<{
   powerValue: number;
@@ -288,16 +287,6 @@ const Boost: React.FC<{
         closable={closeable ?? true}
         maskClosable={closeable ?? true}
       >
-        {connector?.id === 'walletConnect' && (
-          <div className={styles.walletConnectAccount}>
-            <ConnectButton
-              accountStatus={{
-                smallScreen: 'avatar',
-                largeScreen: 'full',
-              }}
-            />
-          </div>
-        )}
         <Select
           powerValue={powerValue}
           setPowerValue={setPowerValue}

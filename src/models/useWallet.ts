@@ -48,7 +48,7 @@ export default () => {
         message: data?.message,
       };
     } else {
-      notification.error({
+      notification.info({
         key: "bindWalletNonce",
         message: "Get nonce failed",
         description: data?.error_description || "Get nonce failed",

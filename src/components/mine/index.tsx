@@ -9,7 +9,6 @@ import { THEME_CONFIG } from "@/constants/theme";
 import PurchaseSuccess from "../purchase/success";
 import PurchaseFailed from "../purchase/failed";
 import { formatEther } from "viem";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 const Detail: React.FC<{
   setPurchaseSuccessVisible: React.Dispatch<React.SetStateAction<boolean>>;
@@ -220,16 +219,6 @@ const Mine: React.FC<{
         closable={closeable ?? true}
         maskClosable={closeable ?? true}
       >
-        {connector?.id === 'walletConnect' && (
-          <div className={styles.walletConnectAccount}>
-            <ConnectButton
-              accountStatus={{
-                smallScreen: 'avatar',
-                largeScreen: 'full',
-              }}
-            />
-          </div>
-        )}
         <Detail
           setPurchaseSuccessVisible={setPurchaseSuccessVisible}
           setPurchaseFailedVisible={setPurchaseFailedVisible}
