@@ -1,6 +1,6 @@
 import '@rainbow-me/rainbowkit/styles.css';
 import {
-  getDefaultWallets,
+  connectorsForWallets,
 } from '@rainbow-me/rainbowkit';
 import {
   ALCHEMY_CONFIG,
@@ -24,12 +24,14 @@ import { FallbackTransport, createPublicClient, http } from "viem";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { infuraProvider } from "wagmi/providers/infura";
 import { publicProvider } from 'wagmi/providers/public';
+import { coinbaseWallet, imTokenWallet, injectedWallet, metaMaskWallet, okxWallet, rainbowWallet, walletConnectWallet } from '@rainbow-me/rainbowkit/wallets';
 
 export default () => {
   const [wagmiConfig, setWagmiConfig] =
     useState<
       Config<
-        PublicClient<FallbackTransport>
+        PublicClient<FallbackTransport>,
+        WebSocketPublicClient<FallbackTransport>
       > | null
     >(null);
   const [wagmiChains, setWagmiChains] = useState<any | null>(null);
@@ -41,7 +43,7 @@ export default () => {
     indexedDB?.deleteDatabase('WALLET_CONNECT_V2_INDEXED_DB');
     console.log("Initializing Wagmi");
 
-    const { chains, publicClient } = configureChains(
+    const { chains, publicClient, webSocketPublicClient } = configureChains(
       [goerli, mainnet, polygon, optimism, arbitrum, base, zora],
       [
         alchemyProvider({
@@ -55,16 +57,46 @@ export default () => {
     );
     setWagmiChains(chains);
 
-    const { connectors } = getDefaultWallets({
-      appName: PROJECT_CONFIG.name,
-      projectId: WALLETCONNECT_CONFIG.projectId,
-      chains
-    });
+    const connectors = connectorsForWallets([
+      {
+        groupName: 'Recommended',
+        wallets: [
+          injectedWallet({
+            chains
+          }),
+          metaMaskWallet({
+            projectId: WALLETCONNECT_CONFIG.projectId,
+            chains
+          }),
+          okxWallet({
+            projectId: WALLETCONNECT_CONFIG.projectId,
+            chains
+          }),
+          rainbowWallet({
+            projectId: WALLETCONNECT_CONFIG.projectId,
+            chains,
+          }),
+          imTokenWallet({
+            projectId: WALLETCONNECT_CONFIG.projectId,
+            chains,
+          }),
+          coinbaseWallet({
+            appName: PROJECT_CONFIG.name,
+            chains,
+          }),
+          walletConnectWallet({
+            projectId: WALLETCONNECT_CONFIG.projectId,
+            chains
+          }),
+        ],
+      },
+    ]);
 
     const config = createConfig({
       autoConnect: true,
       connectors,
       publicClient,
+      webSocketPublicClient,
     });
 
     setWagmiConfig(config);
