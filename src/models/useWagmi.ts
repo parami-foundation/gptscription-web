@@ -44,7 +44,7 @@ export default () => {
     console.log("Initializing Wagmi");
 
     const { chains, publicClient, webSocketPublicClient } = configureChains(
-      [goerli, mainnet, polygon, optimism, arbitrum, base, zora],
+      [...NETWORK_CONFIG.chains, mainnet, polygon, optimism, arbitrum, base, zora],
       [
         alchemyProvider({
           apiKey: ALCHEMY_CONFIG.Goerli,
