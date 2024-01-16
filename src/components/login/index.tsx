@@ -18,7 +18,7 @@ const LoginModal: React.FC<{
   const { chain: currentChain } = useNetwork();
   const { chains } = useSwitchNetwork();
 
-  const { connector, address, isConnected } = useAccount({
+  const { address, isConnected } = useAccount({
     onConnect: (data) => {
       setAddress(data.address as `0x${string}`);
       localStorage.setItem('gptminer:address', data.address as string);
