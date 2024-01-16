@@ -62,7 +62,7 @@ export default defineConfig({
     },
     {
       name: "description",
-      content: "GPTMiner",
+      content: "GPTScription",
     },
     {
       httpEquiv: 'Cache-Control',
@@ -81,19 +81,19 @@ export default defineConfig({
     },
     {
       name: 'title',
-      content: 'GPTMiner - AI-Powered ME for my Web3 Social Network',
+      content: 'GPTScription - AI-Powered ME for my Web3 Social Network',
     },
     {
       name: 'og:title',
-      content: 'GPTMiner - AI-Powered ME for my Web3 Social Network',
+      content: 'GPTScription - AI-Powered ME for my Web3 Social Network',
     },
     {
       name: 'description',
-      content: 'Join GPTMiner now and start earning today!'
+      content: 'Join GPTScription now and start earning today!'
     },
     {
       name: 'og:description',
-      content: 'Join GPTMiner now and start earning today!'
+      content: 'Join GPTScription now and start earning today!'
     },
     {
       name: 'og:image',

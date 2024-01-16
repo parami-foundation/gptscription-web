@@ -21,11 +21,11 @@ const LoginModal: React.FC<{
   const { address, isConnected } = useAccount({
     onConnect: (data) => {
       setAddress(data.address as `0x${string}`);
-      localStorage.setItem('gptminer:address', data.address as string);
+      localStorage.setItem('gptscription:address', data.address as string);
     },
     onDisconnect: () => {
       setAddress(null);
-      localStorage.removeItem('gptminer:address');
+      localStorage.removeItem('gptscription:address');
     }
   });
 

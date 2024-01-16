@@ -97,14 +97,14 @@ export default () => {
 
   useEffect(() => {
     if (!!address) {
-      localStorage.setItem("gptminer:address", address);
+      localStorage.setItem("gptscription:address", address);
     }
   }, [address]);
 
   useEffect(() => {
     (async () => {
       const address =
-        localStorage.getItem("gptminer:address");
+        localStorage.getItem("gptscription:address");
       if (!!address) {
         setAddress(address as `0x${string}`);
       }
@@ -121,7 +121,7 @@ export default () => {
             setWalletBinded(true);
             setAddress(item.address as `0x${string}`);
             setBindedAddress(item.address as `0x${string}`);
-            localStorage.setItem("gptminer:address", item.address as `0x${string}`);
+            localStorage.setItem("gptscription:address", item.address as `0x${string}`);
           }
         });
       }

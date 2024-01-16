@@ -1,12 +1,12 @@
-import { goerli, optimism } from "wagmi/chains";
+import { goerli } from "wagmi/chains";
 
 export const DEBUG = true;
 
 export const PROJECT_CONFIG = {
-  name: 'GPTMiner',
+  name: 'GPTScription',
   version: '1.0.0',
-  description: 'GPT Miner',
-  url: 'https://gptminer.io',
+  description: 'GPT Scription',
+  url: 'https://gptscription.com',
 };
 
 export const GPT_CONFIG = {
@@ -19,11 +19,11 @@ export const NETWORK_CONFIG = {
 
 export const CONTRACT = {
   Goerli: {
-    GPTMiner: '0x93c61fdD7a2D6D4e7e429fddcb1089223A595Ad9',
-    GPTMinerInscription: '0xd573152b7852fc324a0FE245D7EE616989900f9D',
+    GPTScription: '0x93c61fdD7a2D6D4e7e429fddcb1089223A595Ad9',
+    GPTScriptionInscription: '0xd573152b7852fc324a0FE245D7EE616989900f9D',
   },
   Optimism: {
-    GPTMiner: '0xEc9410F65EEfeC104d1C46e35F15837b822B4913'
+    GPTScription: '0xEc9410F65EEfeC104d1C46e35F15837b822B4913'
   },
 };
 

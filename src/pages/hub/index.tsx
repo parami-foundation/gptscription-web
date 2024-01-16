@@ -33,11 +33,11 @@ const Hub: React.FC = () => {
   const { address: connectAddress, isConnected } = useAccount({
     onConnect: (data) => {
       setAddress(data.address as `0x${string}`);
-      localStorage.setItem('gptminer:address', data.address as string);
+      localStorage.setItem('gptscription:address', data.address as string);
     },
     onDisconnect: () => {
       setAddress(null);
-      localStorage.removeItem('gptminer:address');
+      localStorage.removeItem('gptscription:address');
     }
   });
 
@@ -46,7 +46,7 @@ const Hub: React.FC = () => {
 
     if (disconnectSuccess) {
       setAddress(null);
-      localStorage.removeItem('gptminer:address');
+      localStorage.removeItem('gptscription:address');
     }
 
     if (disconnectError) {
@@ -64,11 +64,11 @@ const Hub: React.FC = () => {
 
       if (!!search?.access_token_expire && parseInt(search?.access_token_expire as string) * 1000 > now) {
         setAccessTokenExpire(parseInt(search?.access_token_expire as string) * 1000);
-        localStorage.setItem('gptminer:accesstoken:expire', (parseInt(search?.access_token_expire as string) * 1000).toString());
+        localStorage.setItem('gptscription:accesstoken:expire', (parseInt(search?.access_token_expire as string) * 1000).toString());
 
         if (!!search?.access_token) {
           setAccessToken(search?.access_token as string);
-          localStorage.setItem('gptminer:accesstoken', search?.access_token as string);
+          localStorage.setItem('gptscription:accesstoken', search?.access_token as string);
         }
 
         if (!!search?.referrer) {

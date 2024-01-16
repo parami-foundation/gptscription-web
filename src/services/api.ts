@@ -99,7 +99,7 @@ export async function CreateTransaction(
   options?: { [key: string]: any }
 ) {
   return request(
-    `${API_CONFIG.scheme}://${API_CONFIG.host}/gptminer/mine/tx`,
+    `${API_CONFIG.scheme}://${API_CONFIG.host}/gptscription/mine/tx`,
     {
       method: "POST",
       headers: {
@@ -119,7 +119,7 @@ export async function GetAddressByRef(
   options?: { [key: string]: any }
 ) {
   return request<Resp.GetAddressByRef>(
-    `${API_CONFIG.scheme}://${API_CONFIG.host}/gptminer/referrer/addr?code=${ref}`,
+    `${API_CONFIG.scheme}://${API_CONFIG.host}/gptscription/referrer/addr?code=${ref}`,
     {
       method: "GET",
       headers: {
@@ -137,7 +137,7 @@ export async function GetSign(
   options?: { [key: string]: any }
 ) {
   return request<Resp.GetSign>(
-    `${API_CONFIG.scheme}://${API_CONFIG.host}/gptminer/mine/sig`,
+    `${API_CONFIG.scheme}://${API_CONFIG.host}/gptscription/mine/sig`,
     {
       method: "GET",
       headers: {

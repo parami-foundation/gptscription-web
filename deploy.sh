@@ -8,7 +8,7 @@ if [ $? -eq 0 ]; then
   cp index.html 404.html
   git init .
   git branch -M gh-pages
-  git remote add origin git@github.com:parami-foundation/gptminer-web.git
+  git remote add origin git@github.com:parami-foundation/gptscription-web.git
   git add -f .
   git commit -m "Deploy"
   git push -f origin gh-pages
