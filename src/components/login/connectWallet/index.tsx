@@ -12,7 +12,7 @@ const ConnectWallet: React.FC = () => {
   const { address, setAddress } = useModel("useWallet");
 
   const { isConnected } = useAccount();
-  const { isLoading, error, pendingConnector } =
+  const { error } =
     useConnect({
       onSuccess: (account) => {
         setAddress(account?.account);
