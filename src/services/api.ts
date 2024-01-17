@@ -21,7 +21,7 @@ export async function BindWalletNonce(
   options?: { [key: string]: any }
 ) {
   return request<Resp.BindWalletNonce>(
-    `${API_CONFIG.scheme}://${API_CONFIG.host}/api/v1/wallet/`,
+    `${API_CONFIG.scheme}://${API_CONFIG.host}/api/v1/wallet`,
     {
       method: "POST",
       headers: {
