@@ -1,7 +1,6 @@
 import { extend } from "umi-request";
 import { Resp, Req } from "@/types";
 import { API_CONFIG } from "@/constants/global";
-import { v4 as uuidv4 } from 'uuid';
 
 const errorHandler = (error: any) => {
   const { response = {}, data = {} } = error;
@@ -99,7 +98,7 @@ export async function CreateTransaction(
   options?: { [key: string]: any }
 ) {
   return request(
-    `${API_CONFIG.scheme}://${API_CONFIG.host}/gptscription/mine/tx`,
+    `${API_CONFIG.scheme}://${API_CONFIG.host}/gptminer/mine/tx`,
     {
       method: "POST",
       headers: {
@@ -114,12 +113,11 @@ export async function CreateTransaction(
 }
 
 export async function GetAddressByRef(
-  ref: string,
   accessToken: string,
   options?: { [key: string]: any }
 ) {
   return request<Resp.GetAddressByRef>(
-    `${API_CONFIG.scheme}://${API_CONFIG.host}/gptscription/referrer/addr?code=${ref}`,
+    `${API_CONFIG.scheme}://${API_CONFIG.host}/gptminer/referrer/addr`,
     {
       method: "GET",
       headers: {
@@ -137,7 +135,7 @@ export async function GetSign(
   options?: { [key: string]: any }
 ) {
   return request<Resp.GetSign>(
-    `${API_CONFIG.scheme}://${API_CONFIG.host}/gptscription/mine/sig`,
+    `${API_CONFIG.scheme}://${API_CONFIG.host}/gptminer/mine/sig`,
     {
       method: "GET",
       headers: {

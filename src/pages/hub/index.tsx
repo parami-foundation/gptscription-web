@@ -71,15 +71,13 @@ const Hub: React.FC = () => {
           localStorage.setItem('gptscription:accesstoken', search?.access_token as string);
         }
 
-        if (!!search?.referrer) {
-          const { response, data } = await GetAddressByRef(search?.referrer as string, search?.access_token as string);
-          if (response?.status === 200 && !!data?.data) {
-            setReferrer(data?.data);
-          }
-        }
-
         if (!!search?.redirect_url) {
           setRedirectURL(search?.redirect_url as string);
+        }
+
+        const { response, data } = await GetAddressByRef(search?.access_token as string);
+        if (response?.status === 200 && !!data?.data) {
+          setReferrer(data?.data);
         }
       } else {
         notification.error({
