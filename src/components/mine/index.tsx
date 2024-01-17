@@ -32,8 +32,8 @@ const Detail: React.FC<{
     useSwitchNetwork();
 
   const { data, isLoading, isSuccess, error, write } = useContractWrite({
-    address: CONTRACT.Goerli.GPTScription as `0x${string}`,
-    abi: require("@/abis/GPTScription.json"),
+    address: CONTRACT.Goerli.GPTscription as `0x${string}`,
+    abi: require("@/abis/GPTscription.json"),
     functionName: 'mine',
   });
 
@@ -41,8 +41,8 @@ const Detail: React.FC<{
     ; (async () => {
       if (!publicClient) return;
       const gas = await publicClient?.estimateContractGas({
-        address: CONTRACT.Goerli.GPTScription as `0x${string}`,
-        abi: require("@/abis/GPTScription.json"),
+        address: CONTRACT.Goerli.GPTscription as `0x${string}`,
+        abi: require("@/abis/GPTscription.json"),
         functionName: 'mine',
         args: [
           referrer ? referrer : DEFAULT_REFERRER,

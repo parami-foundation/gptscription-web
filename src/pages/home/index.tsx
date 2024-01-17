@@ -22,7 +22,7 @@ const Home: React.FC = () => {
             <div className={styles.bannerLeftLine} />
             <div className={styles.bannerContent}>
               <div className={styles.bannerTitle}>
-                GPTScription
+                GPTscription
               </div>
               <div className={styles.bannerSubTitle}>
                 World's first<br />

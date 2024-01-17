@@ -39,14 +39,14 @@ const Select: React.FC<{
     isError: boolean;
     isLoading: boolean;
   } = useContractRead({
-    address: CONTRACT.Goerli.GPTScription as `0x${string}`,
-    abi: require("@/abis/GPTScription.json"),
-    functionName: "boostUnit",
+    address: CONTRACT.Goerli.GPTscription as `0x${string}`,
+    abi: require("@/abis/GPTscription.json"),
+    functionName: "BOOST_UNIT",
   });
 
   const { data, isLoading, isSuccess, error, write } = useContractWrite({
-    address: CONTRACT.Goerli.GPTScription as `0x${string}`,
-    abi: require("@/abis/GPTScription.json"),
+    address: CONTRACT.Goerli.GPTscription as `0x${string}`,
+    abi: require("@/abis/GPTscription.json"),
     functionName: 'boost',
   });
 
@@ -54,8 +54,8 @@ const Select: React.FC<{
     if (!powerValue) return;
     (async () => {
       const gas = await publicClient?.estimateContractGas({
-        address: CONTRACT.Goerli.GPTScription as `0x${string}`,
-        abi: require("@/abis/GPTScription.json"),
+        address: CONTRACT.Goerli.GPTscription as `0x${string}`,
+        abi: require("@/abis/GPTscription.json"),
         functionName: 'boost',
         args: [],
         account: address as `0x${string}`,
