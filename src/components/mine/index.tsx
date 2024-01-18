@@ -45,6 +45,7 @@ const Detail: React.FC<{
     address: CONTRACT.Goerli.GPTscription as `0x${string}`,
     abi: require("@/abis/GPTscription.json"),
     functionName: "balances",
+    args: [address],
   });
 
   useEffect(() => {
