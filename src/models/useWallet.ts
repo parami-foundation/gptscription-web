@@ -47,18 +47,13 @@ export default () => {
         nonce: data?.nonce,
         message: data?.message,
       };
-    } else {
-      notification.info({
-        key: "bindWalletNonce",
-        message: "Get nonce failed",
-        description: data?.error_description || "Get nonce failed",
-      });
-      return {
-        nonce: undefined,
-        message: undefined,
-        error: data,
-      };
-    }
+    };
+
+    return {
+      nonce: undefined,
+      message: undefined,
+      error: data,
+    };
   };
 
   const bindWallet = async ({

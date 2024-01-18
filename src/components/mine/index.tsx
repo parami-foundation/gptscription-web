@@ -143,7 +143,7 @@ const Detail: React.FC<{
               className={styles.detailModalFooterBtn}
               loading={isLoading}
               size="large"
-              disabled={parseFloat(balance?.formatted ?? "0") === 0 || parseFloat(balance?.formatted ?? "0") < parseFloat(formatEther(gas)) || !txSignature || !!getGPTBalance.data}
+              disabled={parseFloat(balance?.formatted ?? "0") === 0 || parseFloat(balance?.formatted ?? "0") < parseFloat(formatEther(gas)) || !txSignature || formatEther(getGPTBalance?.data ?? 0n) !== "0"}
               onClick={async () => {
                 await write({
                   args: [
@@ -155,7 +155,7 @@ const Detail: React.FC<{
             >
               {(parseFloat(balance?.formatted ?? "0") === 0 || parseFloat(balance?.formatted ?? "0") < parseFloat(formatEther(gas))) ? (
                 <span>Insufficient Balance</span>
-              ) : !!getGPTBalance.data && !!address ? (
+              ) : formatEther(getGPTBalance?.data ?? 0n) !== "0" && !!address ? (
                 <span>Already Mined</span>
               ) : (
                 <span>Start Mining Now</span>
