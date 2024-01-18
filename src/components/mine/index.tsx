@@ -37,6 +37,16 @@ const Detail: React.FC<{
     functionName: 'mine',
   });
 
+  const getGPTBalance: {
+    data?: bigint;
+    isError: boolean;
+    isLoading: boolean;
+  } = useContractRead({
+    address: CONTRACT.Goerli.GPTscription as `0x${string}`,
+    abi: require("@/abis/GPTscription.json"),
+    functionName: "balances",
+  });
+
   useEffect(() => {
     ; (async () => {
       if (!publicClient) return;
@@ -145,7 +155,7 @@ const Detail: React.FC<{
             >
               {(parseFloat(balance?.formatted ?? "0") === 0 || parseFloat(balance?.formatted ?? "0") < parseFloat(formatEther(gas))) ? (
                 <span>Insufficient Balance</span>
-              ) : !gas && !!address ? (
+              ) : !!getGPTBalance.data && !!address ? (
                 <span>Already Mined</span>
               ) : (
                 <span>Start Mining Now</span>
@@ -172,7 +182,7 @@ const Mine: React.FC<{
   const [purchaseFailedVisible, setPurchaseFailedVisible] = React.useState<boolean>(false);
   const [error, setError] = React.useState<Error>(new Error(""));
 
-  const { connector, address: connectAddress } = useAccount();
+  const { address: connectAddress } = useAccount();
   const { disconnect } = useDisconnect();
 
   useEffect(() => {
