@@ -143,7 +143,7 @@ const Detail: React.FC<{
               className={styles.detailModalFooterBtn}
               loading={isLoading}
               size="large"
-              disabled={parseFloat(balance?.formatted ?? "0") === 0 || parseFloat(balance?.formatted ?? "0") < parseFloat(formatEther(gas)) || !gas || !txSignature}
+              disabled={parseFloat(balance?.formatted ?? "0") === 0 || parseFloat(balance?.formatted ?? "0") < parseFloat(formatEther(gas)) || !txSignature || !!getGPTBalance.data}
               onClick={async () => {
                 await write({
                   args: [
