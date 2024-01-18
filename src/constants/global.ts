@@ -10,7 +10,7 @@ export const PROJECT_CONFIG = {
 };
 
 export const GPT_CONFIG = {
-  url: 'https://chat.openai.com/g/g-WRoKydgki-aime-adam',
+  url: 'https://chat.openai.com/g/g-WRoKydgki-gpt-inscription',
 };
 
 export const NETWORK_CONFIG = {
