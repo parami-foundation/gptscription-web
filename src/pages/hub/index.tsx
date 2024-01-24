@@ -11,6 +11,7 @@ import Mine from '@/components/mine';
 import Boost from '@/components/boost';
 import { GetAddressByRef } from '@/services/api';
 import { Resp } from '@/types';
+import Claim from '@/components/claim';
 
 const Hub: React.FC = () => {
   const { signature, walletBinded, setWalletModalVisible, setAddress } = useModel('useWallet');
@@ -18,6 +19,7 @@ const Hub: React.FC = () => {
 
   const [mineModalVisible, setMineModalVisible] = React.useState<boolean>(false);
   const [boostModalVisible, setBoostModalVisible] = React.useState<boolean>(false);
+  const [claimModalVisible, setClaimModalVisible] = React.useState<boolean>(false);
 
   const [transactionHash, setTransactionHash] = React.useState<`0x${string}` | null>(null);
   const [referrer, setReferrer] = React.useState<string | null>(null);
@@ -133,6 +135,18 @@ const Hub: React.FC = () => {
           }
           break;
 
+        case "claim":
+          if (!!connectAddress && isConnected && currentChain?.id === chains[0]?.id && (!!signature || walletBinded)) {
+            setClaimModalVisible(true);
+            if (!!transactionHash) {
+              window.location.href = redirectURL || `${GPT_CONFIG.url}`;
+            }
+          } else {
+            setWalletModalVisible(true);
+            setClaimModalVisible(false);
+          }
+          break;
+
         default:
           notification.error({
             key: 'actionError',
@@ -192,6 +206,13 @@ const Hub: React.FC = () => {
             setTransactionHash={setTransactionHash}
             closeable={false}
             value={boostValue}
+          />
+          <Claim
+            visible={claimModalVisible}
+            setVisible={setClaimModalVisible}
+            transactionHash={transactionHash}
+            setTransactionHash={setTransactionHash}
+            closeable={false}
           />
         </>
       )}
