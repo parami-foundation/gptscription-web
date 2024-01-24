@@ -29,8 +29,10 @@ export declare namespace Resp {
   }
 
   interface Error extends Body {
+    code?: number;
     error?: string;
     error_description?: string;
+    msg?: string;
   }
 
   interface BindWalletNonce extends Body {

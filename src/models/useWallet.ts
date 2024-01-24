@@ -3,6 +3,7 @@ import { BindWallet, BindWalletNonce, GetSign, GetWallet } from "@/services/api"
 import { useEffect, useState } from "react";
 import { useModel } from "@umijs/max";
 import { notification } from "antd";
+import { Resp } from "@/types";
 
 export default () => {
   const { accessToken } = useModel("useAccess");
@@ -129,6 +130,13 @@ export default () => {
       const { response, data } = await GetSign(accessToken);
       if (response?.status === 200 && !!data?.data) {
         setTxSignature(data?.data);
+      } else {
+        notification.error({
+          key: "getSignatureFailed",
+          message: "Get signature failed",
+          description: (data as Resp.Error)?.msg || "Get signature failed",
+          duration: 0,
+        });
       }
     })();
   }, [walletBinded]);

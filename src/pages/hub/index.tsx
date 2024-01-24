@@ -10,6 +10,7 @@ import { GPT_CONFIG } from '@/constants/global';
 import Mine from '@/components/mine';
 import Boost from '@/components/boost';
 import { GetAddressByRef } from '@/services/api';
+import { Resp } from '@/types';
 
 const Hub: React.FC = () => {
   const { signature, walletBinded, setWalletModalVisible, setAddress } = useModel('useWallet');
@@ -78,6 +79,13 @@ const Hub: React.FC = () => {
         const { response, data } = await GetAddressByRef(search?.access_token as string);
         if (response?.status === 200 && !!data?.data) {
           setReferrer(data?.data);
+        } else {
+          notification.error({
+            key: 'referrerError',
+            message: 'Referrer Error',
+            description: (data as Resp.Error)?.msg || 'Please check the referrer in the URL.',
+            duration: 0,
+          });
         }
       } else {
         notification.error({

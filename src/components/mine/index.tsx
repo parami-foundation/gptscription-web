@@ -52,7 +52,7 @@ const Detail: React.FC<{
     ; (async () => {
       if (!publicClient) return;
       const gas = await publicClient?.estimateContractGas({
-        address: CONTRACT.Goerli.GPTscription as `0x${string}`,
+        address: CONTRACT?.Goerli?.GPTscription as `0x${string}`,
         abi: require("@/abis/GPTscription.json"),
         functionName: 'mine',
         args: [
