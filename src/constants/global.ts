@@ -19,7 +19,7 @@ export const NETWORK_CONFIG = {
 
 export const CONTRACT = {
   Goerli: {
-    GPTscription: '0xa6db2e4113d5bCFDfE8cD08aE190438BA138427D',
+    GPTscription: '0x50CEd13e892917Bed9155055aa2A3d11Ac4cB8Ee',
     GPTscriptionInscription: '0xd573152b7852fc324a0FE245D7EE616989900f9D',
   },
 };
