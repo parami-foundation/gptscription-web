@@ -32,7 +32,7 @@ const PurchaseFailed: React.FC<{
           </div>
         </div>
         <div className={styles.purchaseContent}>
-          {error.message}
+          {error?.message}
         </div>
         <div className={styles.purchaseFooter}>
           <ConfigProvider
