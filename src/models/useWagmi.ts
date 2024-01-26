@@ -9,7 +9,6 @@ import {
   PROJECT_CONFIG,
 } from "@/constants/global";
 import {
-  goerli,
   mainnet,
   polygon,
   optimism,
@@ -47,7 +46,7 @@ export default () => {
       [...NETWORK_CONFIG.chains, mainnet, polygon, optimism, arbitrum, base, zora],
       [
         alchemyProvider({
-          apiKey: ALCHEMY_CONFIG.Goerli,
+          apiKey: ALCHEMY_CONFIG.Sepolia,
         }),
         infuraProvider({
           apiKey: INFURA_CONFIG.apiKey,

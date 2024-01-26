@@ -32,7 +32,7 @@ const Detail: React.FC<{
     useSwitchNetwork();
 
   const { data, isLoading, isSuccess, error, write } = useContractWrite({
-    address: CONTRACT.Goerli.GPTscription as `0x${string}`,
+    address: CONTRACT.Sepolia.GPTscription as `0x${string}`,
     abi: require("@/abis/GPTscription.json"),
     functionName: 'mine',
   });
@@ -42,7 +42,7 @@ const Detail: React.FC<{
     isError: boolean;
     isLoading: boolean;
   } = useContractRead({
-    address: CONTRACT.Goerli.GPTscription as `0x${string}`,
+    address: CONTRACT.Sepolia.GPTscription as `0x${string}`,
     abi: require("@/abis/GPTscription.json"),
     functionName: "balances",
     args: [address],
@@ -52,7 +52,7 @@ const Detail: React.FC<{
     ; (async () => {
       if (!publicClient) return;
       const gas = await publicClient?.estimateContractGas({
-        address: CONTRACT?.Goerli?.GPTscription as `0x${string}`,
+        address: CONTRACT?.Sepolia?.GPTscription as `0x${string}`,
         abi: require("@/abis/GPTscription.json"),
         functionName: 'mine',
         args: [

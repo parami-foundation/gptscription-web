@@ -44,7 +44,7 @@ const MyToken: React.FC = () => {
     isError: boolean;
     isLoading: boolean;
   } = useContractRead({
-    address: CONTRACT.Goerli.GPTscription as `0x${string}`,
+    address: CONTRACT.Sepolia.GPTscription as `0x${string}`,
     abi: require("@/abis/GPTscription.json"),
     functionName: "balances",
     args: [address || connectedAddress],
@@ -55,14 +55,14 @@ const MyToken: React.FC = () => {
     isError: boolean;
     isLoading: boolean;
   } = useContractRead({
-    address: CONTRACT.Goerli.GPTscription as `0x${string}`,
+    address: CONTRACT.Sepolia.GPTscription as `0x${string}`,
     abi: require("@/abis/GPTscription.json"),
     functionName: "earned",
     args: [address || connectedAddress],
   });
 
   const { data, isLoading, isSuccess, error, write } = useContractWrite({
-    address: CONTRACT.Goerli.GPTscription as `0x${string}`,
+    address: CONTRACT.Sepolia.GPTscription as `0x${string}`,
     abi: require("@/abis/GPTscription.json"),
     functionName: 'getReward',
   });

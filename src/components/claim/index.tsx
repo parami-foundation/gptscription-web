@@ -27,7 +27,7 @@ const Claim: React.FC<{
     useSwitchNetwork();
 
   const { data, isLoading, isSuccess, error, write } = useContractWrite({
-    address: CONTRACT.Goerli.GPTscription as `0x${string}`,
+    address: CONTRACT.Sepolia.GPTscription as `0x${string}`,
     abi: require("@/abis/GPTscription.json"),
     functionName: 'getReward',
   });
@@ -37,7 +37,7 @@ const Claim: React.FC<{
     isError: boolean;
     isLoading: boolean;
   } = useContractRead({
-    address: CONTRACT.Goerli.GPTscription as `0x${string}`,
+    address: CONTRACT.Sepolia.GPTscription as `0x${string}`,
     abi: require("@/abis/GPTscription.json"),
     functionName: "earned",
     args: [address],

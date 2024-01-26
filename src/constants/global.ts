@@ -1,4 +1,4 @@
-import { goerli } from "wagmi/chains";
+import { sepolia } from "wagmi/chains";
 
 export const DEBUG = false;
 
@@ -14,13 +14,16 @@ export const GPT_CONFIG = {
 };
 
 export const NETWORK_CONFIG = {
-  chains: [goerli],
+  chains: [sepolia],
 };
 
 export const CONTRACT = {
   Goerli: {
     GPTscription: '0x50CEd13e892917Bed9155055aa2A3d11Ac4cB8Ee',
     GPTscriptionInscription: '0xd573152b7852fc324a0FE245D7EE616989900f9D',
+  },
+  Sepolia: {
+    GPTscription: '0x411D4e147636C63380Fe8D569e9D05DA88688381',
   },
 };
 
@@ -33,6 +36,7 @@ export const API_CONFIG = {
 export const ALCHEMY_CONFIG = {
   Goerli: "tG3loAdZyfqAvKB1uMf88_Z95cXhbWOc",
   Optimism: "Co3hROG5cgCbbMsaIKiGjplscQUvJGhb",
+  Sepolia: "ZjlF77wYtPWb87h53LgMjgcf2cXzvJgB",
 };
 
 export const INFURA_CONFIG = {
