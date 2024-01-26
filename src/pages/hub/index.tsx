@@ -12,6 +12,7 @@ import Boost from '@/components/boost';
 import { GetAddressByRef } from '@/services/api';
 import { Resp } from '@/types';
 import Claim from '@/components/claim';
+import Secret from '@/components/secret';
 
 const Hub: React.FC = () => {
   const { signature, walletBinded, setWalletModalVisible, setAddress } = useModel('useWallet');
@@ -20,6 +21,7 @@ const Hub: React.FC = () => {
   const [mineModalVisible, setMineModalVisible] = React.useState<boolean>(false);
   const [boostModalVisible, setBoostModalVisible] = React.useState<boolean>(false);
   const [claimModalVisible, setClaimModalVisible] = React.useState<boolean>(false);
+  const [secretModalVisible, setSecretModalVisible] = React.useState<boolean>(true);
 
   const [transactionHash, setTransactionHash] = React.useState<`0x${string}` | null>(null);
   const [referrer, setReferrer] = React.useState<string | null>(null);
@@ -212,6 +214,11 @@ const Hub: React.FC = () => {
             setVisible={setClaimModalVisible}
             transactionHash={transactionHash}
             setTransactionHash={setTransactionHash}
+            closeable={false}
+          />
+          <Secret
+            visible={secretModalVisible}
+            setVisible={setSecretModalVisible}
             closeable={false}
           />
         </>
