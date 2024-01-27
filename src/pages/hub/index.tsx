@@ -21,7 +21,9 @@ const Hub: React.FC = () => {
   const [mineModalVisible, setMineModalVisible] = React.useState<boolean>(false);
   const [boostModalVisible, setBoostModalVisible] = React.useState<boolean>(false);
   const [claimModalVisible, setClaimModalVisible] = React.useState<boolean>(false);
-  const [secretModalVisible, setSecretModalVisible] = React.useState<boolean>(true);
+  const [secretModalVisible, setSecretModalVisible] = React.useState<boolean>(false);
+
+  const [secretMode, setSecretMode] = React.useState<"bind" | "mine" | "boost" | "claim">();
 
   const [transactionHash, setTransactionHash] = React.useState<`0x${string}` | null>(null);
   const [referrer, setReferrer] = React.useState<string | null>(null);
@@ -108,7 +110,8 @@ const Hub: React.FC = () => {
       switch (search?.action) {
         case "bind":
           if (!!connectAddress && isConnected && currentChain?.id === chains[0]?.id && (!!signature || walletBinded)) {
-            window.location.href = redirectURL || `${GPT_CONFIG.url}`;
+            setSecretMode("bind");
+            setSecretModalVisible(true);
           }
           break;
 
@@ -116,7 +119,8 @@ const Hub: React.FC = () => {
           if (!!connectAddress && isConnected && currentChain?.id === chains[0]?.id && (!!signature || walletBinded)) {
             setMineModalVisible(true);
             if (!!transactionHash) {
-              window.location.href = redirectURL || `${GPT_CONFIG.url}`;
+              setSecretMode("mine");
+              setSecretModalVisible(true);
             }
           } else {
             setWalletModalVisible(true);
@@ -129,7 +133,8 @@ const Hub: React.FC = () => {
           if (!!connectAddress && isConnected && currentChain?.id === chains[0]?.id && (!!signature || walletBinded)) {
             setBoostModalVisible(true);
             if (!!transactionHash) {
-              window.location.href = redirectURL || `${GPT_CONFIG.url}`;
+              setSecretMode("boost");
+              setSecretModalVisible(true);
             }
           } else {
             setWalletModalVisible(true);
@@ -141,7 +146,8 @@ const Hub: React.FC = () => {
           if (!!connectAddress && isConnected && currentChain?.id === chains[0]?.id && (!!signature || walletBinded)) {
             setClaimModalVisible(true);
             if (!!transactionHash) {
-              window.location.href = redirectURL || `${GPT_CONFIG.url}`;
+              setSecretMode("claim");
+              setSecretModalVisible(true);
             }
           } else {
             setWalletModalVisible(true);
@@ -219,6 +225,7 @@ const Hub: React.FC = () => {
           <Secret
             visible={secretModalVisible}
             setVisible={setSecretModalVisible}
+            mode={secretMode}
             closeable={false}
           />
         </>

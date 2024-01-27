@@ -49,4 +49,7 @@ export const EXPLORER_CONFIG = {
 
 export const DEFAULT_REFERRER = "0x971dF9552669c3890AFE88Cb0a068C98a9A60B7C";
 
+export const DEFAULT_BIND_SECRET = "I've been binding for $GPTs";
 export const DEFAULT_MINE_SECRET = "I've been mining for $GPTs";
+export const DEFAULT_BOOST_SECRET = "I've been boosting for $GPTs";
+export const DEFAULT_CLAIM_SECRET = "I've been claiming for $GPTs";
