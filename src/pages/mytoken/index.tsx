@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import styles from './style.less';
-import { Progress, Tooltip, notification } from 'antd';
+import { Progress, Tooltip } from 'antd';
 import { FaRocket } from 'react-icons/fa';
 import Boost from '@/components/boost';
 import Share from '@/components/share';

@@ -19,6 +19,11 @@ export default defineConfig({
       path: "/hub",
       component: "hub",
     },
+    {
+      name: "Privacy",
+      path: "/privacy",
+      component: "privacy",
+    },
   ],
   manifest: {
     basePath: "/",
