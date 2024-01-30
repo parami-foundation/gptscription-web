@@ -7,7 +7,7 @@ const Privacy: React.FC = () => {
 
   useEffect(() => {
     ; (async () => {
-      const res = await fetch('/gpt_scription_privacy_policy.md');
+      const res = await fetch('/md/gpt_scription_privacy_policy.md');
       if (res.ok) {
         const text = await res.text();
         setPrivacy(text);
