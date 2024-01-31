@@ -40,8 +40,14 @@ const IntelBoost: React.FC<{
       if (!accessToken) return;
       const { response, data } = await GetIntelBoostSign(accessToken);
       if (response?.status === 200) {
-        setSignature(data?.sig);
-        setNonce(data?.nonce);
+        setSignature(data?.data?.sig);
+        setNonce(data?.data?.nonce);
+      } else {
+        notification.error({
+          key: "intelBoostSignError",
+          message: "Intel Boost Sign Error",
+          description: data?.error_description || data?.error || 'Unknown Error',
+        });
       }
     })();
   }, [accessToken]);
@@ -134,16 +140,15 @@ const IntelBoost: React.FC<{
                   type="primary"
                   className={styles.boostModalFooterBtn}
                   loading={isLoading}
+                  disabled={!signature || !nonce}
                   size="large"
                   onClick={async () => {
-                    await write(
-                      {
-                        args: [
-                          signature,
-                          nonce,
-                        ],
-                      },
-                    )
+                    await write({
+                      args: [
+                        signature,
+                        nonce,
+                      ],
+                    })
                   }}
                 >
                   Intel Boost

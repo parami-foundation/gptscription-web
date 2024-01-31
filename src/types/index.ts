@@ -98,7 +98,11 @@ export declare namespace Resp {
 
   interface GetIntelBoostSign extends Body {
     status?: string;
-    nonce?: string;
-    sig?: string;
+    data?: {
+      nonce?: string;
+      sig?: string;
+    };
+    error?: string;
+    error_description?: string;
   }
 }
