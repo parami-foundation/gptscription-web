@@ -95,4 +95,10 @@ export declare namespace Resp {
     status?: string;
     data?: string;
   }
+
+  interface GetIntelBoostSign extends Body {
+    status?: string;
+    nonce?: string;
+    sig?: string;
+  }
 }

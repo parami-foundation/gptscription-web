@@ -2,12 +2,12 @@ import React from 'react';
 import styles from './style.less';
 import { Button, ConfigProvider, Modal, message, theme } from 'antd';
 import { THEME_CONFIG } from '@/constants/theme';
-import { DEFAULT_BIND_SECRET, DEFAULT_BOOST_SECRET, DEFAULT_CLAIM_SECRET, DEFAULT_MINE_SECRET } from '@/constants/global';
+import { DEFAULT_BIND_SECRET, DEFAULT_BOOST_SECRET, DEFAULT_CLAIM_SECRET, DEFAULT_INTELBOOST_SECRET, DEFAULT_MINE_SECRET } from '@/constants/global';
 
 const Secret: React.FC<{
   visible: boolean;
   setVisible: (visible: boolean) => void;
-  mode?: 'bind' | 'mine' | 'boost' | 'claim';
+  mode?: 'bind' | 'mine' | 'boost' | 'claim' | 'intelBoost';
   closeable?: boolean;
 }> = ({ visible, setVisible, mode, closeable }) => {
   return (
@@ -64,6 +64,7 @@ const Secret: React.FC<{
                 {mode === 'mine' && (<span>{DEFAULT_MINE_SECRET}</span>)}
                 {mode === 'boost' && (<span>{DEFAULT_BOOST_SECRET}</span>)}
                 {mode === 'claim' && (<span>{DEFAULT_CLAIM_SECRET}</span>)}
+                {mode === 'intelBoost' && (<span>{DEFAULT_INTELBOOST_SECRET}</span>)}
               </Button>
             </ConfigProvider>
           </div>

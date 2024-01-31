@@ -175,7 +175,7 @@ const Select: React.FC<{
             <div className={styles.selectModalContentItemFullControlNumber}>
               <InputNumber
                 className={styles.selectModalContentItemFullControlNumberInput}
-                bordered={false}
+                variant='borderless'
                 controls={false}
                 min={0}
                 max={100}

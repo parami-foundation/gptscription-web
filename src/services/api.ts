@@ -147,3 +147,21 @@ export async function GetSign(
     }
   );
 }
+
+export async function GetIntelBoostSign(
+  accessToken: string,
+  options?: { [key: string]: any }
+) {
+  return request<Resp.GetIntelBoostSign>(
+    `${API_CONFIG.scheme}://${API_CONFIG.host}/gptminer/intel/boost/sig`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+      ...(options || {}),
+      getResponse: true,
+    }
+  );
+}

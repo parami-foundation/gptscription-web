@@ -18,12 +18,8 @@ export const NETWORK_CONFIG = {
 };
 
 export const CONTRACT = {
-  Goerli: {
-    GPTscription: '0x50CEd13e892917Bed9155055aa2A3d11Ac4cB8Ee',
-    GPTscriptionInscription: '0xd573152b7852fc324a0FE245D7EE616989900f9D',
-  },
   Sepolia: {
-    GPTscription: '0x411D4e147636C63380Fe8D569e9D05DA88688381',
+    GPTscription: '0x22370388e31b50432EFaBC761cc3153695d6a82D',
   },
 };
 
@@ -53,3 +49,4 @@ export const DEFAULT_BIND_SECRET = "I've been binding for $GPTs";
 export const DEFAULT_MINE_SECRET = "I've been mining for $GPTs";
 export const DEFAULT_BOOST_SECRET = "I've been boosting for $GPTs";
 export const DEFAULT_CLAIM_SECRET = "I've been claiming for $GPTs";
+export const DEFAULT_INTELBOOST_SECRET = "I've been intel boosting for $GPTs";

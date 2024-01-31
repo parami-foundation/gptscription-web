@@ -1,18 +1,18 @@
 import React, { useEffect } from 'react';
 import styles from './style.less';
-import { useModel, history } from '@umijs/max';
+import { useModel } from '@umijs/max';
 import { ReactComponent as Logo } from '@/assets/logo.svg';
 import { useAccount, useDisconnect, useNetwork, useSwitchNetwork } from "wagmi";
 import queryString from 'query-string';
 import LoginModal from "@/components/login";
 import { notification } from "antd";
-import { GPT_CONFIG } from '@/constants/global';
 import Mine from '@/components/mine';
 import Boost from '@/components/boost';
 import { GetAddressByRef } from '@/services/api';
 import { Resp } from '@/types';
 import Claim from '@/components/claim';
 import Secret from '@/components/secret';
+import IntelBoost from '@/components/intelBoost';
 
 const Hub: React.FC = () => {
   const { signature, walletBinded, setWalletModalVisible, setAddress } = useModel('useWallet');
@@ -22,12 +22,12 @@ const Hub: React.FC = () => {
   const [boostModalVisible, setBoostModalVisible] = React.useState<boolean>(false);
   const [claimModalVisible, setClaimModalVisible] = React.useState<boolean>(false);
   const [secretModalVisible, setSecretModalVisible] = React.useState<boolean>(false);
+  const [intelBoostModalVisible, setIntelBoostModalVisible] = React.useState<boolean>(false);
 
-  const [secretMode, setSecretMode] = React.useState<"bind" | "mine" | "boost" | "claim">();
+  const [secretMode, setSecretMode] = React.useState<"bind" | "mine" | "boost" | "claim" | "intelBoost">();
 
   const [transactionHash, setTransactionHash] = React.useState<`0x${string}` | null>(null);
   const [referrer, setReferrer] = React.useState<string | null>(null);
-  const [redirectURL, setRedirectURL] = React.useState<string | null>(null);
 
   const [boostValue, setBoostValue] = React.useState<number>(0);
 
@@ -76,10 +76,6 @@ const Hub: React.FC = () => {
         if (!!search?.access_token) {
           setAccessToken(search?.access_token as string);
           localStorage.setItem('gptscription:accesstoken', search?.access_token as string);
-        }
-
-        if (!!search?.redirect_url) {
-          setRedirectURL(search?.redirect_url as string);
         }
 
         const { response, data } = await GetAddressByRef(search?.access_token as string);
@@ -155,6 +151,19 @@ const Hub: React.FC = () => {
           }
           break;
 
+        case "intelBoost":
+          if (!!connectAddress && isConnected && currentChain?.id === chains[0]?.id && (!!signature || walletBinded)) {
+            setIntelBoostModalVisible(true);
+            if (!!transactionHash) {
+              setSecretMode("intelBoost");
+              setSecretModalVisible(true);
+            }
+          } else {
+            setWalletModalVisible(true);
+            setIntelBoostModalVisible(false);
+          }
+          break;
+
         default:
           notification.error({
             key: 'actionError',
@@ -226,6 +235,13 @@ const Hub: React.FC = () => {
             visible={secretModalVisible}
             setVisible={setSecretModalVisible}
             mode={secretMode}
+            closeable={false}
+          />
+          <IntelBoost
+            visible={intelBoostModalVisible}
+            setVisible={setIntelBoostModalVisible}
+            transactionHash={transactionHash}
+            setTransactionHash={setTransactionHash}
             closeable={false}
           />
         </>
