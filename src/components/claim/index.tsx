@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import styles from './style.less';
-import { Button, ConfigProvider, Modal, notification, theme } from 'antd';
+import { Button, ConfigProvider, Modal, Statistic, notification, theme } from 'antd';
 import { THEME_CONFIG } from '@/constants/theme';
 import { useAccount, useBalance, useContractRead, useContractWrite, useNetwork, useSwitchNetwork } from 'wagmi';
 import { CONTRACT, NETWORK_CONFIG } from '@/constants/global';
@@ -8,6 +8,9 @@ import { CreateTransaction } from '@/services/api';
 import { useModel } from '@umijs/max';
 import PurchaseSuccess from '../purchase/success';
 import PurchaseFailed from '../purchase/failed';
+import { formatEther } from 'viem';
+
+const { Countdown } = Statistic;
 
 const Claim: React.FC<{
   visible: boolean;
@@ -43,6 +46,16 @@ const Claim: React.FC<{
     args: [address],
   });
 
+  const getFinished: {
+    data?: bigint;
+    isError: boolean;
+    isLoading: boolean;
+  } = useContractRead({
+    address: CONTRACT.Sepolia.GPTscription as `0x${string}`,
+    abi: require("@/abis/GPTscription.json"),
+    functionName: "miningFinish",
+  });
+
   useEffect(() => {
     ; (async () => {
       if (isSuccess && !!data?.hash && !!accessToken) {
@@ -61,6 +74,8 @@ const Claim: React.FC<{
       }
     })();
   }, [accessToken, data, isSuccess, error]);
+
+  console.log(getFinished?.data);
 
   useEffect(() => {
     if (!!switchNetworkError) {
@@ -97,8 +112,15 @@ const Claim: React.FC<{
               Claim Your GPTs
             </div>
             <div className={styles.claimModalHeaderDescription}>
-              1 GPTs
+              {getEarned?.data ? formatEther(getEarned?.data) : 0} GPTs
             </div>
+            {!!getFinished?.data && (
+              <div className={styles.claimModalHeaderCountdown}>
+                <Countdown
+                  value={Number(getFinished?.data)}
+                />
+              </div>
+            )}
           </div>
           <div className={styles.claimModalFooter}>
             <ConfigProvider
@@ -132,6 +154,7 @@ const Claim: React.FC<{
                   className={styles.claimModalFooterBtn}
                   loading={isLoading}
                   size="large"
+                  disabled
                   onClick={async () => {
                     await write()
                   }}
